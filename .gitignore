@@ -13,3 +13,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+# expo
+google-services.json
+GoogleService-Info.plist

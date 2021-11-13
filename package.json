@@ -10,9 +10,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-google-signin/google-signin": "^7.0.1",
     "@types/react-native-dotenv": "^0.2.0",
     "expo": "~43.0.2",
+    "expo-google-sign-in": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "firebase": "^9.4.0",
     "native-base": "^3.2.2",
@@ -22,6 +22,7 @@
     "react-native-dotenv": "^3.3.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
+    "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
