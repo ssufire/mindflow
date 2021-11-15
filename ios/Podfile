@@ -7,6 +7,10 @@ platform :ios, '12.0'
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
+
+# Make RNFirebase as Static Framework
+$RNFirebaseAsStaticFramework = true
+
 target 'projectFire' do
   use_expo_modules!
   config = use_native_modules!
