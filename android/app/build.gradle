@@ -148,6 +148,14 @@ android {
         }
     }
     signingConfigs {
+        debug {
+            if(project.hasProperty(SSUFIRE_STORE_FILE)) {
+                storeFile file(SSUFIRE_STORE_FILE)
+                storePassword SSUFIRE_STORE_PASSWORD
+                keyAlias SSUFIRE_STORE_KEY_ALIAS
+                keyPassword SSUFIRE_STORE_KEY_PASSWORD
+            }
+        }
         release {
             if(project.hasProperty(SSUFIRE_STORE_FILE)) {
                 storeFile file(SSUFIRE_STORE_FILE)
@@ -159,7 +167,7 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
