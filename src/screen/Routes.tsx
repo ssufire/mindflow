@@ -5,6 +5,7 @@ import {
 	TransitionPresets,
 } from "@react-navigation/stack";
 import Timeline from "./Timeline";
+import SignIn from "./SignIn";
 
 export default function Routes() {
 	// Create StackNavigator
@@ -22,6 +23,11 @@ export default function Routes() {
 
 	return (
 		<Stack.Navigator screenOptions={TransitionScreenOptions}>
+			<Stack.Screen
+				name="signin"
+				component={SignIn}
+				options={screenOption}
+			/>
 			<Stack.Screen
 				name="timeline"
 				component={Timeline}

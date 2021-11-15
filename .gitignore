@@ -81,4 +81,5 @@ dist/
 
 # Credential
 /android/app/google-service.json
+/android/app/ssufire-upload.keystore
 /ios/projectFire/GoogleService-Info.plist
