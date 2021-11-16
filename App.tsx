@@ -7,6 +7,8 @@ import {
 import signInWithGoogle from "./src/lib/auth/signInWithGoogle";
 import auth from "@react-native-firebase/auth";
 import { GOOGLE_WEB_CLIENT_ID } from "@env";
+import { NavigationContainer } from "@react-navigation/native";
+import Routes from "./src/screen/Routes";
 
 const App = () => {
 	useEffect(() => {
@@ -25,12 +27,9 @@ const App = () => {
 	}, []);
 
 	return (
-		<SafeAreaView>
-			<View>
-				<Text>테스으으으으으으</Text>
-				<GoogleSigninButton onPress={signInWithGoogle} />
-			</View>
-		</SafeAreaView>
+		<NavigationContainer>
+			<Routes />
+		</NavigationContainer>
 	);
 };
 
