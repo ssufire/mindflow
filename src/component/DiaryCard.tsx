@@ -6,7 +6,7 @@ export default function DiaryCard({
 	author = "",
 	situation = "",
 	createdAt = new Date(),
-	onActionSheetPress = () => {},
+	onPressActionSheet = () => {},
 }) {
 	return (
 		<Box backgroundColor="white" p="3" my="3" width="100%" rounded="xl">
@@ -29,7 +29,7 @@ export default function DiaryCard({
 				</Box>
 				<IconButton
 					icon={<Icon name={"search"} />}
-					onPress={onActionSheetPress}
+					onPress={onPressActionSheet}
 				/>
 			</HStack>
 			<Text fontSize="sm" my="3">
