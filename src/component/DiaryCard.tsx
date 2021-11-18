@@ -1,22 +1,24 @@
 import React from "react";
-import { Box, HamburgerIcon, IconButton, HStack, Text } from "native-base";
+import { Box, IconButton, HStack, Text, Icon, Center } from "native-base";
 
 export default function DiaryCard({
+	text = "",
 	author = "",
-	context = "",
-	content = "",
+	situation = "",
 	createdAt = new Date(),
 	onActionSheetPress = () => {},
 }) {
 	return (
 		<Box backgroundColor="white" p="3" my="3" width="100%" rounded="xl">
 			<HStack my="1">
-				{/* Place emotion color here*/}
+				<Center>
+					<Icon name={"search"} />
+				</Center>
 				<Box flex={1} mx="2">
 					<Text fontSize="md" color="gray.500">
-						{context && (
+						{situation && (
 							<Text>
-								<Text color="darkText">{context}</Text> 중인{" "}
+								<Text color="darkText">{situation}</Text> 중인{" "}
 							</Text>
 						)}
 						{author}
@@ -26,12 +28,12 @@ export default function DiaryCard({
 					</Text>
 				</Box>
 				<IconButton
-					icon={<HamburgerIcon size="4" />}
+					icon={<Icon name={"search"} />}
 					onPress={onActionSheetPress}
 				/>
 			</HStack>
 			<Text fontSize="sm" my="3">
-				{content}
+				{text}
 			</Text>
 		</Box>
 	);

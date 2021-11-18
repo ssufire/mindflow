@@ -1,65 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
-import { Box, FlatList, Heading } from "native-base";
+import { Button, FlatList, Heading } from "native-base";
+
+import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
+import getMyProfile from "../lib/profile/getMyProfile";
+import writeDiary from "../lib/diary/writeDiary";
 import DiaryCard from "../component/DiaryCard";
 
 export default function Timeline() {
+	const [diary, setDiary] = useState([]);
+	const [myProfile, setMyProfile] = useState({ nickname: "" });
+
+	useEffect(() => {
+		getMyProfile().then((res) => setMyProfile(res));
+		const subscriber = subscribeMyDiary(setDiary);
+
+		return () => {
+			if (subscriber) subscriber();
+		};
+	}, []);
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#eeeeee" }}>
-			<Box px="5" style={{ flex: 1 }}>
-				<Heading>Timeline</Heading>
-				<FlatList
-					data={dummyData}
-					renderItem={({ item }) => (
+			<FlatList
+				px="5"
+				data={diary}
+				showsVerticalScrollIndicator={false}
+				ListHeaderComponent={() => (
+					<>
+						<Heading>Timeline</Heading>
+						<Button
+							onPress={async () => {
+								await writeDiary("일기내용", "fine", 3);
+							}}
+						>
+							일기쓰기
+						</Button>
+					</>
+				)}
+				renderItem={({ item }) => {
+					return (
 						<DiaryCard
-							author={item.author}
-							context={item.context}
-							content={item.content}
-							createdAt={item.createdAt}
-							key={`diary_${item.createdAt.getTime()}`}
+							{...item}
+							author={myProfile.nickname}
+							key={item.id}
 						/>
-					)}
-				/>
-			</Box>
+					);
+				}}
+			/>
 		</SafeAreaView>
 	);
 }
-
-const dummyData = [
-	{
-		author: "이세빈",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-	{
-		author: "하정훈",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-	{
-		author: "전수연",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-	{
-		author: "이세빈",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-	{
-		author: "하정훈",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-	{
-		author: "전수연",
-		context: "근무",
-		content: `퇴근하고 싶다.${"\n"}현재시각 5시 37분, 부천소사경찰서`,
-		createdAt: new Date(),
-	},
-];
