@@ -1,8 +1,38 @@
 import React, { useEffect, useState } from "react";
 import DiaryWrite from "../component/DiaryWrite";
+import writeDiary from "../lib/diary/writeDiary";
 
 export default function DiaryWriteContainer() {
-	const lengthLimit = 200;
+	const [text, setText, length] = useDiaryWrite();
+	const [situation, setSituation] = useState("");
+	const [emotion, setEmotion] = useState({
+		emotion: "fine",
+		emotionIntensity: 1,
+	});
+
+	const onPressEmotion = () => {};
+
+	const onPressWrite = async () => {
+		await writeDiary(
+			text,
+			emotion.emotion,
+			emotion.emotionIntensity,
+			situation
+		);
+	};
+
+	return (
+		<DiaryWrite
+			text={text}
+			length={length}
+			setText={setText}
+			onPressWrite={onPressWrite}
+			onPressEmotion={onPressEmotion}
+		/>
+	);
+}
+
+const useDiaryWrite = (lengthLimit = 200) => {
 	const [text, setText] = useState("");
 	const [length, setLength] = useState(0);
 
@@ -16,5 +46,5 @@ export default function DiaryWriteContainer() {
 		});
 	}, [text]);
 
-	return <DiaryWrite text={text} setText={setText} length={length} />;
-}
+	return [text, setText, length];
+};
