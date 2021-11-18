@@ -6,6 +6,7 @@ import DiaryCardContainer from "../container/DiaryCardContainer";
 import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
 import getMyProfile from "../lib/profile/getMyProfile";
 import deleteDiary from "../lib/diary/deleteDiary";
+import writeDiary_Mock from "../lib/diary/writeDiary.mock";
 
 export default function Timeline() {
     const [diary, setDiary] = useState([]);
@@ -31,11 +32,17 @@ export default function Timeline() {
                         <Heading>Timeline</Heading>
                         <Button
                             onPress={async () => {
-                                await deleteDiary();
-                                Alert.alert("삭제");
+                                await writeDiary_Mock();
                             }}
                         >
-                            일기삭제
+                            일기작성 (테스트)
+                        </Button>
+                        <Button
+                            onPress={async () => {
+                                await deleteDiary();
+                            }}
+                        >
+                            일기삭제 (테스트)
                         </Button>
                         <DiaryWriteContainer />
                     </>
