@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Divider, Modal } from "native-base";
+import DiarySituation from "../component/DiarySituation";
+import DiaryEmotion from "../component/DiaryEmotion";
 import DiaryWrite from "../component/DiaryWrite";
 import writeDiary from "../lib/diary/writeDiary";
 
@@ -6,11 +9,15 @@ export default function DiaryWriteContainer() {
 	const [text, setText, length] = useDiaryWrite();
 	const [situation, setSituation] = useState("");
 	const [emotion, setEmotion] = useState({
-		emotion: "fine",
+		emotion: "FINE",
 		emotionIntensity: 1,
 	});
 
-	const onPressEmotion = () => {};
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const onPressEmotion = () => {
+		setModalVisible(true);
+	};
 
 	const onPressWrite = async () => {
 		await writeDiary(
@@ -22,13 +29,31 @@ export default function DiaryWriteContainer() {
 	};
 
 	return (
-		<DiaryWrite
-			text={text}
-			length={length}
-			setText={setText}
-			onPressWrite={onPressWrite}
-			onPressEmotion={onPressEmotion}
-		/>
+		<>
+			<DiaryWrite
+				text={text}
+				length={length}
+				setText={setText}
+				onPressWrite={onPressWrite}
+				onPressEmotion={onPressEmotion}
+			/>
+			<Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
+				<Modal.Content background="white">
+					<Modal.CloseButton />
+					<Modal.Body background="white" p="5">
+						<DiaryEmotion
+							emotion={emotion}
+							setEmotion={setEmotion}
+						/>
+						<Divider my="2" />
+						<DiarySituation
+							situation={situation}
+							setSituation={setSituation}
+						/>
+					</Modal.Body>
+				</Modal.Content>
+			</Modal>
+		</>
 	);
 }
 
