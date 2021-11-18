@@ -7,8 +7,11 @@ import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
 import getMyProfile from "../lib/profile/getMyProfile";
 import deleteDiary from "../lib/diary/deleteDiary";
 import writeDiary_Mock from "../lib/diary/writeDiary.mock";
+import { useNavigation } from "@react-navigation/core";
 
 export default function Timeline() {
+    const navigation = useNavigation();
+
     const [diary, setDiary] = useState([]);
     const [myProfile, setMyProfile] = useState({ nickname: "" });
 
@@ -43,6 +46,15 @@ export default function Timeline() {
                             }}
                         >
                             일기삭제 (테스트)
+                        </Button>
+                        <Button
+                            onPress={async () => {
+                                navigation.reset({
+                                    routes: [{ name: "statistics" }],
+                                });
+                            }}
+                        >
+                            통계이동 (테스트)
                         </Button>
                         <DiaryWriteContainer />
                     </>
