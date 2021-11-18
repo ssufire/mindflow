@@ -5,12 +5,15 @@ import {
 	StackNavigationOptions,
 	TransitionPresets,
 } from "@react-navigation/stack";
+import { Alert } from "react-native";
 import Timeline from "./Timeline";
 import SignIn from "./SignIn";
 
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { GOOGLE_WEB_CLIENT_ID } from "@env";
+
+import setMyProfile from "../lib/profile/setMyProfile";
 
 export default function Routes() {
 	const navigation = useNavigation();
@@ -20,11 +23,25 @@ export default function Routes() {
 			webClientId: GOOGLE_WEB_CLIENT_ID,
 		});
 
-		auth().onAuthStateChanged((user) => {
+		const subscribe = auth().onAuthStateChanged((user) => {
 			if (user) {
-				navigation.reset({ routes: [{ name: "timeline" }] });
+				setMyProfile()
+					.then(() =>
+						navigation.reset({ routes: [{ name: "timeline" }] })
+					)
+					.catch((error) => {
+						console.log(error);
+						Alert.alert(
+							"오류 발생",
+							"오류가 발생했습니다. 다시 시도해주세요"
+						);
+					});
 			}
 		});
+
+		return () => {
+			if (subscribe) subscribe();
+		};
 	}, []);
 
 	// Create StackNavigator
