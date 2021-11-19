@@ -8,6 +8,8 @@ import getMyProfile from "../lib/profile/getMyProfile";
 import deleteDiary from "../lib/diary/deleteDiary";
 import writeDiary_Mock from "../lib/diary/writeDiary.mock";
 import { useNavigation } from "@react-navigation/core";
+import moment from "moment";
+import getDiaryWeek from "../lib/statistics/getDiaryWeek";
 
 export default function Statistics() {
     const navigation = useNavigation();
@@ -18,6 +20,8 @@ export default function Statistics() {
     useEffect(() => {
         getMyProfile().then(setMyProfile);
         const subscriber = subscribeMyDiary(setDiary);
+
+        getDiaryWeek();
 
         return () => {
             if (subscriber) subscriber();
@@ -34,6 +38,7 @@ export default function Statistics() {
             >
                 일기작성 (테스트)
             </Button>
+            <Heading>Timeline</Heading>
         </SafeAreaView>
     );
 }
