@@ -4,8 +4,14 @@ export async function getSituationEmotion(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
     const result: {
+        /**
+         * 상황별 감정 강도
+         */
         situation: {
             [situation: string]: [
+                /**
+                 * emotionIntensityAvg 내림차순
+                 */
                 {
                     emotion: string;
                     emotionIntensityCount: number;
@@ -14,8 +20,14 @@ export async function getSituationEmotion(
                 }
             ];
         };
+        /**
+         * 감정에 따른 상황
+         */
         emotion: {
             [emotion: string]: [
+                /**
+                 * emotionIntensityAvg 내림차순
+                 */
                 {
                     situation: string;
                     situationCount: number;
@@ -33,6 +45,8 @@ export async function getSituationEmotion(
     for (const data of diary) {
         const { emotion, emotionIntensity, situation } = data.data();
 
+        // * If there are no data for emotion
+        // * Set initial value here
         if (result.emotion[emotion] === undefined) {
             result.emotion[emotion] = [
                 {
@@ -46,6 +60,8 @@ export async function getSituationEmotion(
             const foundEmotion = result.emotion[emotion].find(
                 (v) => v.situation === situation
             );
+            // * If there are no data for situation in emotion
+            // * Set initial value here
             if (foundEmotion === undefined) {
                 result.emotion[emotion].push({
                     situation,
@@ -60,6 +76,8 @@ export async function getSituationEmotion(
             }
         }
 
+        // * If there are no data for situation
+        // * Set initial value here
         if (result.situation[situation] === undefined) {
             result.situation[situation] = [
                 {
@@ -72,6 +90,8 @@ export async function getSituationEmotion(
             const foundSituation = result.situation[situation].find(
                 (v) => v.emotion === emotion
             );
+            // * If there are no data for emotion in situation
+            // * Set initial value here
             if (foundSituation === undefined) {
                 result.situation[situation].push({
                     emotion,
@@ -86,22 +106,26 @@ export async function getSituationEmotion(
     }
 
     for (const emotion in result.emotion) {
+        // * Calculate emotionIntensity average
         result.emotion[emotion].forEach(
             (v) =>
                 (v.emotionIntensityAvg =
                     v.emotionIntensitySum / v.emotionIntensityCount)
         );
+        // * Sort emotionIntensity desc
         result.emotion[emotion].sort(
             (a, b) => b.emotionIntensityAvg - a.emotionIntensityAvg
         );
     }
 
     for (const situation in result.situation) {
+        // * Calculate emotionIntensity average
         result.situation[situation].forEach(
             (v) =>
                 (v.emotionIntensityAvg =
                     v.emotionIntensitySum / v.emotionIntensityCount)
         );
+        // * Sort emotionIntensity desc
         result.situation[situation].sort(
             (a, b) => b.emotionIntensityAvg - a.emotionIntensityAvg
         );
