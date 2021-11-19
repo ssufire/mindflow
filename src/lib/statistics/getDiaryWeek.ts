@@ -1,8 +1,7 @@
+import moment from "moment";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import moment from "moment";
-import { getFlowEmotion } from "./getFlowEmotion";
-import { getMajorEmotion } from "./getMajorEmotion";
+import getPeriodEmotionAnalysis from "./getPeriodEmotionAnalysis";
 
 export default async function getDiaryWeek() {
     // * Get current user's uid
@@ -25,6 +24,5 @@ export default async function getDiaryWeek() {
 
     console.log("getDiaryWeek", result);
 
-    getMajorEmotion(result);
-    getFlowEmotion(result);
+    getPeriodEmotionAnalysis(result);
 }
