@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import DiaryCard from "../component/DiaryCard";
 import DiaryCardDeleted from "../component/DiaryCardDeleted";
+import DiaryExplodeModalContainer from "./DiaryExplodeModalContainer";
 
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import cancelDiaryBomb from "../lib/diary/cancelDiaryBomb";
-import addDiaryBomb from "../lib/diary/addDiaryBomb";
 
 export default function DiaryCardContainer(props) {
+    const [modalVisible, setModalVisible] = useState(false);
     const [exploded, setExploded] = useState(
         props.explodedAt && props.explodedAt.toDate().getTime() < Date.now()
     );
@@ -23,8 +25,23 @@ export default function DiaryCardContainer(props) {
             switch (index) {
                 case 0:
                     props.explodedAt !== null
-                        ? await cancelDiaryBomb(props.id)
-                        : await addDiaryBomb(props.id);
+                        ? Alert.alert(
+                              "감정 붙잡기",
+                              "이 감정을 떠나보내지 않으시겠어요?",
+                              [
+                                  {
+                                      text: "예",
+                                      onPress: async () =>
+                                          await cancelDiaryBomb(props.id),
+                                  },
+                                  {
+                                      text: "아니요",
+                                      style: "destructive",
+                                  },
+                              ],
+                              { cancelable: true }
+                          )
+                        : setModalVisible(true);
                     break;
 
                 default:
@@ -38,10 +55,17 @@ export default function DiaryCardContainer(props) {
     return exploded ? (
         <DiaryCardDeleted />
     ) : (
-        <DiaryCard
-            {...props}
-            onPressActionSheet={onPressActionSheet}
-            setExploded={setExploded}
-        />
+        <>
+            <DiaryCard
+                {...props}
+                onPressActionSheet={onPressActionSheet}
+                setExploded={setExploded}
+            />
+            <DiaryExplodeModalContainer
+                id={props.id}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
+        </>
     );
 }
