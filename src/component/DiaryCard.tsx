@@ -1,7 +1,9 @@
 import React from "react";
-import moment from "moment";
+import { TouchableOpacity } from "react-native";
+import { Box, HStack, Text, Icon, Center } from "native-base";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTimer } from "react-timer-hook";
-import { Box, IconButton, HStack, Text, Icon, Center } from "native-base";
+import moment from "moment";
 
 export default function DiaryCard({
     text = "",
@@ -57,13 +59,15 @@ const DiaryCardHeader = ({
     return (
         <HStack my="1">
             <Center>
-                <Icon name={"search"} />
+                <Icon as={MaterialIcons} name="account-circle" />
             </Center>
             <HeaderText />
-            <IconButton
-                icon={<Icon name={"search"} />}
+            <TouchableOpacity
+                style={{ justifyContent: "center" }}
                 onPress={onPressActionSheet}
-            />
+            >
+                <Icon as={MaterialIcons} name="more-horiz" size="sm" />
+            </TouchableOpacity>
         </HStack>
     );
 };
