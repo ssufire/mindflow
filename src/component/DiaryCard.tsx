@@ -4,6 +4,7 @@ import { Box, HStack, Text, Icon, Center } from "native-base";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTimer } from "react-timer-hook";
 import moment from "moment";
+import "moment/locale/ko";
 
 export default function DiaryCard({
     text = "",
@@ -51,7 +52,7 @@ const DiaryCardHeader = ({
                 {author}
             </Text>
             <Text fontSize="xs" my="0">
-                {moment(createdAt).format("hh:mm").toString()}
+                {moment(createdAt).format("A h시 mm분")}
             </Text>
         </Box>
     );
