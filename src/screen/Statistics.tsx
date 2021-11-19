@@ -10,6 +10,7 @@ import writeDiary_Mock from "../lib/diary/writeDiary.mock";
 import { useNavigation } from "@react-navigation/core";
 import moment from "moment";
 import getDiaryWeek from "../lib/statistics/getDiaryWeek";
+import getDiaryAll from "../lib/statistics/getDiaryAll";
 
 export default function Statistics() {
     const navigation = useNavigation();
@@ -22,6 +23,7 @@ export default function Statistics() {
         const subscriber = subscribeMyDiary(setDiary);
 
         getDiaryWeek();
+        getDiaryAll();
 
         return () => {
             if (subscriber) subscriber();
