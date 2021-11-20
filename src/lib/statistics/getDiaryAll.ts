@@ -14,7 +14,5 @@ export default async function getDiaryAll() {
         .get()
         .then((v) => v.docs);
 
-    console.log("getDiaryAll", result);
-
-    getSituationEmotion(result);
+    return getSituationEmotion(result);
 }

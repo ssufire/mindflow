@@ -3,135 +3,112 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 export async function getSituationEmotion(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
-    const result: {
-        /**
-         * 상황별 감정 강도
-         */
-        situation: {
-            [situation: string]: [
-                /**
-                 * emotionIntensityAvg 내림차순
-                 */
-                {
-                    emotion: string;
-                    emotionIntensityCount: number;
-                    emotionIntensitySum: number;
-                    emotionIntensityAvg?: number;
-                }
-            ];
-        };
-        /**
-         * 감정에 따른 상황
-         */
-        emotion: {
-            [emotion: string]: [
-                /**
-                 * emotionIntensityAvg 내림차순
-                 */
-                {
-                    situation: string;
-                    situationCount: number;
-                    emotionIntensityCount: number;
-                    emotionIntensitySum: number;
-                    emotionIntensityAvg?: number;
-                }
-            ];
-        };
-    } = {
-        situation: {},
-        emotion: {},
-    };
+    const situationAcc: EmotionBySituationAcc = {};
+    const emotionAcc: SituationByEmotionAcc = {};
 
     for (const data of diary) {
-        const { emotion, emotionIntensity, situation } = data.data();
+        const {
+            situation,
+            emotionIntensity,
+            emotion: emotionString,
+        } = data.data();
 
-        // * If there are no data for emotion
-        // * Set initial value here
-        if (result.emotion[emotion] === undefined) {
-            result.emotion[emotion] = [
-                {
-                    situation,
-                    situationCount: 1,
-                    emotionIntensityCount: 1,
-                    emotionIntensitySum: emotionIntensity,
-                },
-            ];
-        } else {
-            const foundEmotion = result.emotion[emotion].find(
-                (v) => v.situation === situation
-            );
-            // * If there are no data for situation in emotion
-            // * Set initial value here
-            if (foundEmotion === undefined) {
-                result.emotion[emotion].push({
-                    situation,
-                    situationCount: 1,
-                    emotionIntensityCount: 1,
-                    emotionIntensitySum: emotionIntensity,
-                });
-            } else {
-                foundEmotion.emotionIntensityCount += 1;
-                foundEmotion.emotionIntensitySum += emotionIntensity;
-                foundEmotion.situationCount += 1;
-            }
+        // * Explicitly convert emotionString to Upper Case
+        // * To prevent unexpected error
+        const emotion = emotionString.toUpperCase();
+
+        // * If there are no data for current emotion or situation in emotionAcc,
+        // * Then set initial value here
+        if (!emotionAcc[emotion]) emotionAcc[emotion] = {};
+        if (!emotionAcc[emotion][situation]) {
+            emotionAcc[emotion][situation] = 0;
         }
 
-        // * If there are no data for situation
-        // * Set initial value here
-        if (result.situation[situation] === undefined) {
-            result.situation[situation] = [
-                {
-                    emotion,
-                    emotionIntensityCount: 1,
-                    emotionIntensitySum: emotionIntensity,
-                },
-            ];
-        } else {
-            const foundSituation = result.situation[situation].find(
-                (v) => v.emotion === emotion
-            );
-            // * If there are no data for emotion in situation
-            // * Set initial value here
-            if (foundSituation === undefined) {
-                result.situation[situation].push({
-                    emotion,
-                    emotionIntensityCount: 1,
-                    emotionIntensitySum: emotionIntensity,
-                });
-            } else {
-                foundSituation.emotionIntensityCount += 1;
-                foundSituation.emotionIntensitySum += emotionIntensity;
-            }
+        // * If there are no data for current situation or emotion in situationAcc,
+        // * Then set initial value here
+        if (!situationAcc[situation]) situationAcc[situation] = {};
+        if (!situationAcc[situation][emotion]) {
+            situationAcc[situation][emotion] = {
+                count: 0,
+                intensity: 0,
+            };
         }
+
+        // * To shorten the code, parse prevSituationAcc value
+        const { count: prevCount, intensity: prevIntensity } =
+            situationAcc[situation][emotion];
+
+        // * Add data to emotionAcc, situationAcc
+        emotionAcc[emotion][situation] += 1;
+        situationAcc[situation][emotion] = {
+            count: prevCount + 1,
+            intensity: prevIntensity + emotionIntensity,
+        };
     }
 
-    for (const emotion in result.emotion) {
-        // * Calculate emotionIntensity average
-        result.emotion[emotion].forEach(
-            (v) =>
-                (v.emotionIntensityAvg =
-                    v.emotionIntensitySum / v.emotionIntensityCount)
-        );
-        // * Sort emotionIntensity desc
-        result.emotion[emotion].sort(
-            (a, b) => b.emotionIntensityAvg - a.emotionIntensityAvg
-        );
+    const emotionOrdered: SituationByEmotionOrdered = {};
+    const situationOrdered: EmotionBySituationOrdered = {};
+
+    // * Convert emotionAcc to SitautionByEmotionOrdered Type
+    for (const emotion in emotionAcc) {
+        emotionOrdered[emotion] = Object.keys(emotionAcc[emotion])
+            .map((situation) => ({
+                situation,
+                count: emotionAcc[emotion][situation],
+            }))
+            .sort((a, b) => b.count - a.count);
     }
 
-    for (const situation in result.situation) {
-        // * Calculate emotionIntensity average
-        result.situation[situation].forEach(
-            (v) =>
-                (v.emotionIntensityAvg =
-                    v.emotionIntensitySum / v.emotionIntensityCount)
-        );
-        // * Sort emotionIntensity desc
-        result.situation[situation].sort(
-            (a, b) => b.emotionIntensityAvg - a.emotionIntensityAvg
-        );
+    // * Convert situationAcc to EmotionBySituationOrdered Type
+    for (const situation in situationAcc) {
+        situationOrdered[situation] = Object.keys(situationAcc[situation])
+            .map((emotion) => {
+                const { count, intensity } = situationAcc[situation][emotion];
+                return {
+                    emotion,
+                    emotionIntensity: intensity / count,
+                };
+            })
+            .sort((a, b) => b.emotionIntensity - a.emotionIntensity);
     }
 
-    console.log("getMajorEmotion", result);
+    return {
+        situationByEmotion: situationOrdered,
+        emotionBySituation: emotionOrdered,
+    };
+}
 
-    return result;
+/**
+ * @description 감정별 상황의 표출 횟수를 정리한 상태의 타입을 나타냅니다.
+ */
+interface SituationByEmotionAcc {
+    [emotion: string]: {
+        [situation: string]: number;
+    };
+}
+
+/**
+ * @description 상황별 감정을 감정의 표출횟수, 강도의 합으로 정리한 상태의 타입을 나타냅니다.
+ */
+interface EmotionBySituationAcc {
+    [situation: string]: {
+        [emotion: string]: {
+            count: number;
+            intensity: number;
+        };
+    };
+}
+
+/**
+ * @description 감정별 상황을 상황의 빈도에 따라 정렬을 완료한 상태의 타입을 나타냅니다.
+ */
+interface SituationByEmotionOrdered {
+    [emotion: string]: { situation: string; count: number }[];
+}
+
+/**
+ * @description 상황별 감정을 감정의 평균 강도에 따라 정렬을 완료한 상태의 타입을 나타냅니다.
+ */
+interface EmotionBySituationOrdered {
+    [situation: string]: { emotion: string; emotionIntensity: number }[];
 }
