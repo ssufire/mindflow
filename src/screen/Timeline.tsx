@@ -1,25 +1,29 @@
-import React, { useCallback, useEffect, useState } from "react";
+import moment from "moment";
+import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Text, FlatList, Heading } from "native-base";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
 import DiaryCardContainer from "../container/DiaryCardContainer";
-import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
-import getMyProfile from "../lib/profile/getMyProfile";
-import deleteDiary from "../lib/diary/deleteDiary";
-import writeDiary_Mock from "../lib/diary/writeDiary.mock";
-import { useNavigation } from "@react-navigation/core";
 
 import checkShowDateDivider from "../lib/timeline/checkShowDateDivider";
-import moment from "moment";
+import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
+import writeDiary_Mock from "../lib/diary/writeDiary.mock";
+import deleteDiary from "../lib/diary/deleteDiary";
 
 export default function Timeline() {
+    // * Get Navigation object for screen routing
     const navigation = useNavigation();
 
-    const [diary, setDiary] = useState([]);
-    const [myProfile, setMyProfile] = useState({ nickname: "" });
+    // * Get User's nickname from redux
+    const nickname = useSelector((state: any) => state.userInfo.nickname);
 
+    // * Declare State for diary data
+    const [diary, setDiary] = useState([]);
+
+    // * Subscribe user's diary
     useEffect(() => {
-        getMyProfile().then(setMyProfile);
         const subscriber = subscribeMyDiary(setDiary);
 
         return () => {
@@ -27,6 +31,7 @@ export default function Timeline() {
         };
     }, []);
 
+    // * Declare diary and date divider for FlatList
     // * To Optimize Performance, wrap renderItem with useCallback
     const renderItem = useCallback(
         ({ item, index }) => (
@@ -45,16 +50,13 @@ export default function Timeline() {
                             </Text>
                         )
                 }
-                <DiaryCardContainer
-                    {...item}
-                    author={myProfile.nickname}
-                    key={item.id}
-                />
+                <DiaryCardContainer {...item} author={nickname} key={item.id} />
             </>
         ),
         [diary]
     );
 
+    // * Declare Key Extractor for FlatList
     // * To Optimize Performance, wrap keyExtractor with useCallback
     const keyExtractor = useCallback((item) => item.id, [diary]);
 
@@ -68,26 +70,18 @@ export default function Timeline() {
                 ListHeaderComponent={() => (
                     <>
                         <Heading>Timeline</Heading>
-                        <Button
-                            onPress={async () => {
-                                await writeDiary_Mock();
-                            }}
-                        >
+                        <Button onPress={async () => await writeDiary_Mock()}>
                             일기작성 (테스트)
                         </Button>
-                        <Button
-                            onPress={async () => {
-                                await deleteDiary();
-                            }}
-                        >
+                        <Button onPress={async () => await deleteDiary()}>
                             일기삭제 (테스트)
                         </Button>
                         <Button
-                            onPress={async () => {
+                            onPress={() =>
                                 navigation.reset({
                                     routes: [{ name: "statistics" }],
-                                });
-                            }}
+                                })
+                            }
                         >
                             통계이동 (테스트)
                         </Button>

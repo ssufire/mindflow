@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@expo/react-native-action-sheet": "^3.12.0",
+		"@react-native-community/async-storage": "^1.12.1",
 		"@react-native-firebase/app": "^13.0.1",
 		"@react-native-firebase/auth": "^13.0.1",
 		"@react-native-firebase/firestore": "^13.0.1",
@@ -30,7 +31,10 @@
 		"react-native-screens": "^3.9.0",
 		"react-native-svg": "^12.1.1",
 		"react-native-vector-icons": "^9.0.0",
-		"react-timer-hook": "^3.0.5"
+		"react-redux": "^7.2.6",
+		"react-timer-hook": "^3.0.5",
+		"redux": "^4.1.2",
+		"redux-persist": "^6.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.9",
