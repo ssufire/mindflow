@@ -17,12 +17,8 @@ export default async function getDiaryWeek() {
         .where("author", "==", uid)
         .where("createdAt", ">=", weekDate)
         .orderBy("createdAt", "desc")
-        .get({
-            source: "server",
-        })
+        .get({ source: "server" })
         .then((v) => v.docs);
 
-    console.log("getDiaryWeek", result);
-
-    getPeriodEmotionAnalysis(result);
+    return getPeriodEmotionAnalysis(result);
 }

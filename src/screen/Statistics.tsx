@@ -1,46 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { Alert, SafeAreaView } from "react-native";
-import { Button, FlatList, Heading } from "native-base";
-import DiaryWriteContainer from "../container/DiaryWriteContainer";
-import DiaryCardContainer from "../container/DiaryCardContainer";
-import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
-import getMyProfile from "../lib/profile/getMyProfile";
-import deleteDiary from "../lib/diary/deleteDiary";
-import writeDiary_Mock from "../lib/diary/writeDiary.mock";
+import { SafeAreaView } from "react-native";
+import { Text, Heading, Box } from "native-base";
+
 import { useNavigation } from "@react-navigation/core";
-import moment from "moment";
 import getDiaryWeek from "../lib/statistics/getDiaryWeek";
-import getDiaryAll from "../lib/statistics/getDiaryAll";
+import DailyStatistics from "../component/statistics/DailyStatistics";
+import PeriodStatistics from "../component/statistics/PeriodStatistics";
 
 export default function Statistics() {
     const navigation = useNavigation();
 
-    const [diary, setDiary] = useState([]);
-    const [myProfile, setMyProfile] = useState({ nickname: "" });
+    const [periodDailyStatistics, setPeriodDailyStatistics] = useState({});
+    const [periodMajorStatistics, setPeriodMajorStatistics] = useState({
+        emotion: [],
+        emotionIntensity: -1,
+    });
 
     useEffect(() => {
-        getMyProfile().then(setMyProfile);
-        const subscriber = subscribeMyDiary(setDiary);
-
-        getDiaryWeek();
-        getDiaryAll();
-
-        return () => {
-            if (subscriber) subscriber();
-        };
+        getDiaryWeek().then((res: any) => {
+            if (res) {
+                setPeriodMajorStatistics(res.periodMajorEmotion);
+                setPeriodDailyStatistics(res.dailyMajorEmotionFlow);
+            }
+        });
     }, []);
+
+    useEffect(() => {
+        console.log("periodStatics", periodMajorStatistics);
+    }, [periodMajorStatistics]);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#eeeeee" }}>
-            <Heading>Timeline</Heading>
-            <Button
-                onPress={async () => {
-                    navigation.reset({ routes: [{ name: "timeline" }] });
-                }}
-            >
-                일기작성 (테스트)
-            </Button>
-            <Heading>Timeline</Heading>
+            <Heading>Statistics</Heading>
+
+            <Box m="3" p="3" borderRadius="lg" background="white">
+                <PeriodStatistics
+                    emotionArray={periodMajorStatistics.emotion}
+                    emotionIntensity={periodMajorStatistics.emotionIntensity}
+                />
+            </Box>
+            <Box m="3" p="3" borderRadius="lg" background="white">
+                <Text>일주일동안 이런 감정 흐름을 보였어요</Text>
+                {Object.keys(periodDailyStatistics).map((value) => {
+                    const { emotion: emotionArray, emotionIntensity } =
+                        periodDailyStatistics[value];
+
+                    return (
+                        <DailyStatistics
+                            date={value}
+                            emotionArray={emotionArray}
+                            emotionIntensity={emotionIntensity}
+                        />
+                    );
+                })}
+            </Box>
         </SafeAreaView>
     );
 }
