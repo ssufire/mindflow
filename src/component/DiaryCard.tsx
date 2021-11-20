@@ -5,11 +5,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTimer } from "react-timer-hook";
 import moment from "moment";
 import "moment/locale/ko";
+import DiaryEmotion from "./DiaryEmotion";
+import { getEmotionColor } from "../lib/emotion/getEmotionColor";
 
 export default function DiaryCard({
     text = "",
     author = "",
     situation = "",
+    emotion,
+    emotionIntensity,
     createdAt = new Date(),
     explodedAt,
     onPressActionSheet = () => {},
@@ -25,6 +29,8 @@ export default function DiaryCard({
                     author={author}
                     situation={situation}
                     createdAt={createdAt}
+                    emotion={emotion}
+                    emotionIntensity={emotionIntensity}
                     onPressActionSheet={onPressActionSheet}
                 />
                 <Text fontSize="sm" my="3">
@@ -39,6 +45,8 @@ const DiaryCardHeader = ({
     author,
     situation,
     createdAt,
+    emotion,
+    emotionIntensity,
     onPressActionSheet,
 }) => {
     const HeaderText = () => (
@@ -60,7 +68,9 @@ const DiaryCardHeader = ({
     return (
         <HStack my="1">
             <Center>
-                <Icon as={MaterialIcons} name="account-circle" />
+                <DiaryEmotion
+                    color={getEmotionColor(emotion, emotionIntensity)}
+                />
             </Center>
             <HeaderText />
             <TouchableOpacity

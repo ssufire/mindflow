@@ -26,7 +26,11 @@ export default function DiaryExplodeModal({
                     onValueChange={setSelectedTime}
                 >
                     {time.map((value) => (
-                        <Picker.Item label={`${value}시간 후`} value={value} />
+                        <Picker.Item
+                            label={`${value}시간 후`}
+                            value={value}
+                            key={value}
+                        />
                     ))}
                 </Picker>
                 <Button m="3" mx="5" onPress={onPressSetTimebomb}>
