@@ -8,8 +8,16 @@ export default async function getPeriodEmotionAnalysis(
     const periodEmotion = {};
 
     for (const data of diary) {
-        const { createdAt, emotion, emotionIntensity } = data.data();
+        const {
+            createdAt,
+            emotionIntensity,
+            emotion: emotionString,
+        } = data.data();
         const dateString = moment(createdAt.toDate()).format("YYYY-MM-DD");
+
+        // * Explicitly convert emotionString to Upper Case
+        // * To prevent unexpected error
+        const emotion = emotionString.toUpperCase();
 
         // * If there are no data for currentDate or emotion in dailyEmotionFlow,
         // * Set initial value here
@@ -72,6 +80,7 @@ export default async function getPeriodEmotionAnalysis(
             if (currentEmotionAvgIntensity > majorEmotionAvgIntensity) {
                 majorEmotion = [emotion];
                 majorEmotionAvgIntensity = currentEmotionAvgIntensity;
+                continue;
             }
 
             // * If currentEmotion has same average intensity with major,
@@ -106,6 +115,7 @@ export default async function getPeriodEmotionAnalysis(
         if (currentEmotionAvgIntensity > periodMajorEmotion.emotionIntensity) {
             periodMajorEmotion.emotion = [emotion];
             periodMajorEmotion.emotionIntensity = currentEmotionAvgIntensity;
+            continue;
         }
 
         // * If currentEmotion has same average intensity with major,
@@ -119,9 +129,6 @@ export default async function getPeriodEmotionAnalysis(
             ];
         }
     }
-
-    console.log("일주일동안 이런 감정 흐름을 보였어요", dailyMajorEmotionFlow);
-    console.log("이번주는 이런 감정을 가진 주간이였어요", periodMajorEmotion);
 
     return { dailyMajorEmotionFlow, periodMajorEmotion };
 }
