@@ -1,13 +1,14 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Box, Button, HStack, Modal, Text } from "native-base";
+import { Box, Button, HStack, Text } from "native-base";
+import ModalTexture from "./texture/ModalTexture";
+import DiaryEmotion from "./DiaryEmotion";
+
 import {
     getDummyEmotion,
     getDummyIntensity,
     getDummySituation,
 } from "../lib/diary/getDummyDiaryData";
-import emotionColors from "../lib/emotion/emotionColors";
-import DiaryEmotion from "./DiaryEmotion";
 import {
     getEmotionBorderColor,
     getEmotionColor,
@@ -25,62 +26,58 @@ export default function DiaryWriteModal({
     setEmotion,
 }) {
     return (
-        <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
-            <Modal.Content background="white">
-                <Modal.CloseButton />
-                <Modal.Body background="white" p="5">
-                    <Box style={{ flex: 1 }}>
-                        <Text>감정을 선택해주세요</Text>
-                        {emotionList.map((name) => (
-                            <HStack
-                                my="2.5"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                key={`emotion_${name}`}
+        <ModalTexture
+            modalVisible={modalVisible}
+            onClose={() => setModalVisible(false)}
+        >
+            <Box style={{ flex: 1 }}>
+                <Text>감정을 선택해주세요</Text>
+                {emotionList.map((name) => (
+                    <HStack
+                        my="2.5"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        key={`emotion_${name}`}
+                    >
+                        {intensity.map((emotionIntensity) => (
+                            <TouchableOpacity
+                                onPress={() =>
+                                    setEmotion({
+                                        emotion: name,
+                                        emotionIntensity,
+                                    })
+                                }
                             >
-                                {intensity.map((emotionIntensity) => (
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            setEmotion({
-                                                emotion: name,
-                                                emotionIntensity,
-                                            })
-                                        }
-                                    >
-                                        <DiaryEmotion
-                                            showBorder={
-                                                name === emotion.emotion &&
-                                                emotionIntensity ===
-                                                    emotion.emotionIntensity
-                                            }
-                                            borderColor={getEmotionBorderColor(
-                                                name
-                                            )}
-                                            color={getEmotionColor(
-                                                name,
-                                                emotionIntensity
-                                            )}
-                                        />
-                                    </TouchableOpacity>
-                                ))}
-                            </HStack>
-                        ))}
-                    </Box>
-                    <Box>
-                        <Text>적절한 상황을 선택해주세요</Text>
-                        <Box flex="1" flexWrap="wrap" flexDirection="row">
-                            {getDummySituation().map((value) => (
-                                <Chip
-                                    value={value}
-                                    selected={value === situation}
-                                    setSituation={setSituation}
+                                <DiaryEmotion
+                                    showBorder={
+                                        name === emotion.emotion &&
+                                        emotionIntensity ===
+                                            emotion.emotionIntensity
+                                    }
+                                    borderColor={getEmotionBorderColor(name)}
+                                    color={getEmotionColor(
+                                        name,
+                                        emotionIntensity
+                                    )}
                                 />
-                            ))}
-                        </Box>
-                    </Box>
-                </Modal.Body>
-            </Modal.Content>
-        </Modal>
+                            </TouchableOpacity>
+                        ))}
+                    </HStack>
+                ))}
+            </Box>
+            <Box>
+                <Text>적절한 상황을 선택해주세요</Text>
+                <Box flex="1" flexWrap="wrap" flexDirection="row">
+                    {getDummySituation().map((value) => (
+                        <Chip
+                            value={value}
+                            selected={value === situation}
+                            setSituation={setSituation}
+                        />
+                    ))}
+                </Box>
+            </Box>
+        </ModalTexture>
     );
 }
 

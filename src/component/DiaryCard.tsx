@@ -1,12 +1,13 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Box, HStack, Text, Icon, Center } from "native-base";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useTimer } from "react-timer-hook";
-import moment from "moment";
 import "moment/locale/ko";
-import DiaryEmotion from "./DiaryEmotion";
+import moment from "moment";
+import React from "react";
+import { useTimer } from "react-timer-hook";
+import { TouchableOpacity } from "react-native";
+import { Box, HStack, Text, Icon, Center, Divider } from "native-base";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { getEmotionColor } from "../lib/emotion/getEmotionColor";
+import DiaryCardTexture from "./texture/DiaryCardTexture";
+import DiaryEmotion from "./DiaryEmotion";
 
 export default function DiaryCard({
     text = "",
@@ -24,7 +25,7 @@ export default function DiaryCard({
             {explodedAt && (
                 <Timebomb explodedAt={explodedAt} setExploded={setExploded} />
             )}
-            <Box backgroundColor="white" p="3" my="3" width="100%" rounded="xl">
+            <DiaryCardTexture>
                 <DiaryCardHeader
                     author={author}
                     situation={situation}
@@ -33,10 +34,11 @@ export default function DiaryCard({
                     emotionIntensity={emotionIntensity}
                     onPressActionSheet={onPressActionSheet}
                 />
-                <Text fontSize="sm" my="3">
+                <Divider marginTop="3" opacity="0.8" />
+                <Text fontSize="sm" my="4">
                     {text}
                 </Text>
-            </Box>
+            </DiaryCardTexture>
         </>
     );
 }
@@ -66,7 +68,7 @@ const DiaryCardHeader = ({
     );
 
     return (
-        <HStack my="1">
+        <HStack>
             <Center>
                 <DiaryEmotion
                     color={getEmotionColor(emotion, emotionIntensity)}

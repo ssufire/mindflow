@@ -1,16 +1,14 @@
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { Text, FlatList, Heading, Box } from "native-base";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Text, FlatList, Heading } from "native-base";
+import ScreenBackgroundTexture from "../component/texture/ScreenBackgroundTexture";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
 import DiaryCardContainer from "../container/DiaryCardContainer";
 
 import checkShowDateDivider from "../lib/timeline/checkShowDateDivider";
 import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
-import writeDiary_Mock from "../lib/diary/writeDiary.mock";
-import deleteDiary from "../lib/diary/deleteDiary";
 
 export default function Timeline() {
     // * Get Navigation object for screen routing
@@ -61,36 +59,22 @@ export default function Timeline() {
     const keyExtractor = useCallback((item) => item.id, [diary]);
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#eeeeee" }}>
+        <ScreenBackgroundTexture>
             <FlatList
                 px="5"
                 data={diary}
+                contentContainerStyle={{ paddingBottom: 50 }}
                 removeClippedSubviews={true}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={() => (
-                    <>
+                    <Box marginTop="50">
                         <Heading>Timeline</Heading>
-                        <Button onPress={async () => await writeDiary_Mock()}>
-                            일기작성 (테스트)
-                        </Button>
-                        <Button onPress={async () => await deleteDiary()}>
-                            일기삭제 (테스트)
-                        </Button>
-                        <Button
-                            onPress={() =>
-                                navigation.reset({
-                                    routes: [{ name: "statistics" }],
-                                })
-                            }
-                        >
-                            통계이동 (테스트)
-                        </Button>
                         <DiaryWriteContainer />
-                    </>
+                    </Box>
                 )}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
             />
-        </SafeAreaView>
+        </ScreenBackgroundTexture>
     );
 }

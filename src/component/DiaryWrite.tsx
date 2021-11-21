@@ -1,6 +1,7 @@
 import React from "react";
+import { Button, HStack, Text } from "native-base";
 import { TextInput, TouchableOpacity } from "react-native";
-import { Box, Button, HStack, Text } from "native-base";
+import DiaryCardTexture from "./texture/DiaryCardTexture";
 import DiaryEmotion from "./DiaryEmotion";
 
 export default function DiaryWrite({
@@ -16,22 +17,15 @@ export default function DiaryWrite({
             <Text fontSize="lg" marginTop="3">
                 지금 기분이 어떤가요?
             </Text>
-            <Box
-                backgroundColor="white"
-                p="3"
-                my="3"
-                h="xs"
-                width="100%"
-                rounded="xl"
-            >
+            <DiaryCardTexture height="xs">
                 <TouchableOpacity onPress={onPressEmotion}>
                     <HStack
                         alignItems="center"
-                        background="white"
                         alignSelf="flex-end"
+                        background="white"
                         borderRadius="md"
                         shadow="1"
-                        p="2"
+                        p="1.5"
                     >
                         <Text mx="2">상황</Text>
                         <DiaryEmotion
@@ -51,7 +45,7 @@ export default function DiaryWrite({
                     <Text>{length}/200</Text>
                     <Button onPress={onPressWrite}>Save</Button>
                 </HStack>
-            </Box>
+            </DiaryCardTexture>
         </>
     );
 }
