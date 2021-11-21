@@ -15,7 +15,7 @@ export default function ScreenBackgroundTexture(props) {
             rounded="xl"
         >
             <FastImage
-                source={require("../../asset/backgroundPaperTexture.png")}
+                source={require("../../asset/backgroundPaperTexture.jpg")}
                 style={{
                     position: "absolute",
                     opacity: 0.45,

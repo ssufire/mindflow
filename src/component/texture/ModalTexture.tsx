@@ -7,7 +7,7 @@ export default function ModalTexture({ modalVisible, onClose, children }) {
         <Modal isOpen={modalVisible} onClose={onClose}>
             <Modal.Content>
                 <FastImage
-                    source={require("../../asset/paperTextureLight.png")}
+                    source={require("../../asset/paperTextureLight.jpg")}
                     style={{
                         position: "absolute",
                         borderRadius: 13,
