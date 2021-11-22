@@ -8,7 +8,7 @@ import store from "./src/redux/store";
 
 const theme = extendTheme({
     fonts: {
-        heading: "GowunBatang-Regular",
+        heading: "GowunBatang-Bold",
         body: "GowunBatang-Regular",
     },
 });

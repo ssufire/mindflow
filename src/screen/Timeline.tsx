@@ -1,7 +1,8 @@
 import moment from "moment";
+import { Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, FlatList, Heading, Box } from "native-base";
+import { Text, FlatList, Box } from "native-base";
 import React, { useCallback, useEffect, useState } from "react";
 import ScreenBackgroundTexture from "../component/texture/ScreenBackgroundTexture";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
@@ -54,6 +55,23 @@ export default function Timeline() {
         [diary]
     );
 
+    const ListHeaderComponent = useCallback(
+        () => (
+            <Box marginTop={Platform.OS === "ios" ? "50" : "5"}>
+                <Text
+                    fontFamily="heading"
+                    fontWeight="600"
+                    fontSize="2xl"
+                    opacity="0.87"
+                >
+                    타임라인
+                </Text>
+                <DiaryWriteContainer />
+            </Box>
+        ),
+        []
+    );
+
     // * Declare Key Extractor for FlatList
     // * To Optimize Performance, wrap keyExtractor with useCallback
     const keyExtractor = useCallback((item) => item.id, [diary]);
@@ -66,12 +84,7 @@ export default function Timeline() {
                 contentContainerStyle={{ paddingBottom: 50 }}
                 removeClippedSubviews={true}
                 showsVerticalScrollIndicator={false}
-                ListHeaderComponent={() => (
-                    <Box marginTop="50">
-                        <Heading>Timeline</Heading>
-                        <DiaryWriteContainer />
-                    </Box>
-                )}
+                ListHeaderComponent={ListHeaderComponent}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
             />
