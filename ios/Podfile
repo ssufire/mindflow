@@ -1,14 +1,13 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-
-
 platform :ios, '12.0'
-
 
 # Make RNFirebase as Static Framework
 $RNFirebaseAsStaticFramework = true
 
+# CodePush plugin dependency
+pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
 target 'mindflow' do
   config = use_native_modules!

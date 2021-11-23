@@ -2,6 +2,7 @@ package com.ssufire.mindflow;
 
 import android.app.Application;
 import android.content.Context;
+import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -28,6 +29,14 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           return packages;
         }
+
+          // 2. Override the getJSBundleFile method to let
+          // the CodePush runtime determine where to get the JS
+          // bundle location from on each app start
+          @Override
+          protected String getJSBundleFile() {
+              return CodePush.getJSBundleFile();
+          }
 
         @Override
         protected String getJSMainModuleName() {
