@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75593E97274D111B00EF7754 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 75593E96274D111B00EF7754 /* AppCenter-Config.plist */; };
 		75A85F45274CEAB900BC0D4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A85F3E274CEAB900BC0D4C /* Images.xcassets */; };
 		75A85F47274CEAB900BC0D4C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A85F40274CEAB900BC0D4C /* AppDelegate.m */; };
 		75A85F48274CEAB900BC0D4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A85F41274CEAB900BC0D4C /* main.m */; };
@@ -40,6 +41,7 @@
 		4580421D4840446ABE26B6B4 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		473575D6A5C215456D284669 /* libPods-mindflow.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mindflow.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CCD277ACAD2497F9006B82F /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		75593E96274D111B00EF7754 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		75A85F3E274CEAB900BC0D4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		75A85F3F274CEAB900BC0D4C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75A85F40274CEAB900BC0D4C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				75A85F3E274CEAB900BC0D4C /* Images.xcassets */,
 				75A85F3F274CEAB900BC0D4C /* Info.plist */,
 				75A85F41274CEAB900BC0D4C /* main.m */,
+				75593E96274D111B00EF7754 /* AppCenter-Config.plist */,
 			);
 			path = mindflow;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				75A85F4A274CEAB900BC0D4C /* GoogleService-Info.plist in Resources */,
 				75A85F45274CEAB900BC0D4C /* Images.xcassets in Resources */,
 				F53F472CA09947AE9ADD7C65 /* GowunBatang-Bold.ttf in Resources */,
+				75593E97274D111B00EF7754 /* AppCenter-Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
