@@ -10,7 +10,7 @@ platform :ios, '12.0'
 $RNFirebaseAsStaticFramework = true
 
 
-target 'projectfire' do
+target 'mindflow' do
   config = use_native_modules!
 
   use_react_native!(
@@ -19,10 +19,6 @@ target 'projectfire' do
     :hermes_enabled => false
   )
 
-  target 'projectfireTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   # Enables Flipper.
   #

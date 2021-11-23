@@ -2,12 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:projectfire.xcodeproj">
+      location = "group:/Users/sebinlee/Desktop/Github/projectfire/ios/mindflow.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:projectFire.xcodeproj">
+      location = "group:mindflow.xcodeproj">
    </FileRef>
 </Workspace>
