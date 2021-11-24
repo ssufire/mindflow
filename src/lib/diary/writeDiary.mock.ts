@@ -2,11 +2,11 @@ import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import { Alert } from "react-native";
 import fakerStatic from "faker";
-import { getDummyEmotion } from "./getDummyDiaryData";
+import { getEmotion } from "../data/getStaticData";
 
 export default async function writeDiary_Mock(
     text = fakerStatic.lorem.sentence(5),
-    emotion = getDummyEmotion()[new Date().getTime() % 5],
+    emotion = getEmotion()[new Date().getTime() % 5],
     emotionIntensity = fakerStatic.datatype.number({
         min: 1,
         max: 5,

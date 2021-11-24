@@ -1,11 +1,9 @@
 import React from "react";
 import { Button, Modal, Text } from "native-base";
 import { Picker } from "@react-native-picker/picker";
+import { getExplodeTimeList } from "../lib/data/getStaticData";
 
-const time = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24,
-];
+const timelist = getExplodeTimeList();
 
 export default function DiaryExplodeModal({
     modalVisible,
@@ -25,7 +23,7 @@ export default function DiaryExplodeModal({
                     selectedValue={selectedTime}
                     onValueChange={setSelectedTime}
                 >
-                    {time.map((value) => (
+                    {timelist.map((value) => (
                         <Picker.Item
                             label={`${value}시간 후`}
                             value={value}
