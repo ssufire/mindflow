@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "native-base";
 import { getEmotionColor } from "../../lib/emotion/getEmotionColor";
-import DiaryEmotion from "../DiaryEmotion";
+import DiaryEmotion from "../emotion/Emotion";
 
 /**
  * @description 통계 화면에서 일별 감정흐름 통계를 표출하는 Component 입니다.

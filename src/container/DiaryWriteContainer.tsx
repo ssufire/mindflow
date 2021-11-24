@@ -1,8 +1,8 @@
 import { Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getEmotionColor } from "../lib/emotion/getEmotionColor";
-import DiaryWriteModal from "../component/DiaryWriteModal";
-import DiaryWrite from "../component/DiaryWrite";
+import DiaryWriteModal from "../component/diary/DiaryWriteModal";
+import DiaryWrite from "../component/diary/DiaryWrite";
 import writeDiary from "../lib/diary/writeDiary";
 
 export default function DiaryWriteContainer() {

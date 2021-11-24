@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ScreenBackgroundTexture from "../component/texture/ScreenBackgroundTexture";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
 import DiaryCardContainer from "../container/DiaryCardContainer";
-import DiaryDateDivider from "../component/DiaryDateDivider";
+import DiaryDateDivider from "../component/diary/DiaryDateDivider";
 
 import checkShowDateDivider from "../lib/timeline/checkShowDateDivider";
 import subscribeMyDiary from "../lib/diary/subscribeMyDiary";

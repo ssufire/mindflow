@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, HStack, Text, TextArea } from "native-base";
-import DiaryCardTexture from "./texture/DiaryCardTexture";
-import DiaryEmotion from "./DiaryEmotion";
+import DiaryCardTexture from "../texture/DiaryCardTexture";
+import DiaryEmotion from "../emotion/Emotion";
 
 export default function DiaryWrite({
     text,

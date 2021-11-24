@@ -5,9 +5,9 @@ import { useTimer } from "react-timer-hook";
 import { TouchableOpacity } from "react-native";
 import { Box, HStack, Text, Icon, Center, Divider } from "native-base";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { getEmotionColor } from "../lib/emotion/getEmotionColor";
-import DiaryCardTexture from "./texture/DiaryCardTexture";
-import DiaryEmotion from "./DiaryEmotion";
+import { getEmotionColor } from "../../lib/emotion/getEmotionColor";
+import DiaryCardTexture from "../texture/DiaryCardTexture";
+import DiaryEmotion from "../emotion/Emotion";
 
 export default function DiaryCard({
     text = "",

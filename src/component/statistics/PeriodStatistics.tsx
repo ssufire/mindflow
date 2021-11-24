@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "native-base";
 import { getEmotionColor } from "../../lib/emotion/getEmotionColor";
-import DiaryEmotion from "../DiaryEmotion";
+import DiaryEmotion from "../emotion/Emotion";
 
 export default function PeriodStatistics({ emotionArray, emotionIntensity }) {
     return (

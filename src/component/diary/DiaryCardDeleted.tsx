@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Center } from "native-base";
-import DiaryCardTexture from "./texture/DiaryCardTexture";
+import DiaryCardTexture from "../texture/DiaryCardTexture";
 
 export default function DiaryCardDeleted() {
     return (

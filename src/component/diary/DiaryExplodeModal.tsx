@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal, Text } from "native-base";
 import { Picker } from "@react-native-picker/picker";
-import { getExplodeTimeList } from "../lib/data/getStaticData";
+import { getExplodeTimeList } from "../../lib/data/getStaticData";
 
 const timelist = getExplodeTimeList();
 

@@ -1,17 +1,17 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Box, Button, Divider, HStack, Text } from "native-base";
-import ModalTexture from "./texture/ModalTexture";
-import DiaryEmotion from "./DiaryEmotion";
+import ModalTexture from "../texture/ModalTexture";
+import DiaryEmotion from "../emotion/Emotion";
 import {
     getEmotion,
     getSituation,
     getEmotionIntensity,
-} from "../lib/data/getStaticData";
+} from "../../lib/data/getStaticData";
 import {
     getEmotionBorderColor,
     getEmotionColor,
-} from "../lib/emotion/getEmotionColor";
+} from "../../lib/emotion/getEmotionColor";
 
 export default function DiaryWriteModal({
     emotion,

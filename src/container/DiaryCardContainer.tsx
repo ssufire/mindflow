@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert } from "react-native";
-import DiaryCard from "../component/DiaryCard";
-import DiaryCardDeleted from "../component/DiaryCardDeleted";
+import DiaryCard from "../component/diary/DiaryCard";
+import DiaryCardDeleted from "../component/diary/DiaryCardDeleted";
 import DiaryExplodeModalContainer from "./DiaryExplodeModalContainer";
 
 import { useActionSheet } from "@expo/react-native-action-sheet";

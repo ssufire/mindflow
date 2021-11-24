@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DiaryExplodeModal from "../component/DiaryExplodeModal";
+import DiaryExplodeModal from "../component/diary/DiaryExplodeModal";
 import addDiaryBomb from "../lib/diary/addDiaryBomb";
 
 export default function DiaryExplodeModalContainer({
