@@ -17,7 +17,10 @@ export default function DiaryCardContainer(props) {
 
     const onPressActionSheet = () => {
         const actionSheetOption = {
-            options: [props.explodedAt ? "폭탄 취소" : "폭탄 설정", "취소"],
+            options: [
+                props.explodedAt ? "감정 붙잡기" : "감정 떠나보내기",
+                "취소",
+            ],
             cancelButtonIndex: 1,
         };
 

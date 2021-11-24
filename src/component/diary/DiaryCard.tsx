@@ -95,19 +95,18 @@ const Timebomb = ({ explodedAt, setExploded }) => {
 
     return (
         <Box
-            background="gray.800"
+            p="2"
+            opacity="0.9"
+            marginTop="3"
+            marginBottom="-1.5"
+            borderRadius="lg"
+            background="#2E2B27"
             alignSelf="flex-start"
-            p="3"
-            paddingBottom="5"
-            marginBottom="-6"
-            borderRadius="xl"
-            borderBottomLeftRadius="0"
+            _text={{ color: "white", fontWeight: "semibold", fontSize: "xs" }}
         >
-            <Text color="white" fontWeight="semibold">
-                {hours + minutes === 0
-                    ? "잠시 후 감정이 사라집니다."
-                    : `${hours}시간 ${minutes}분 뒤에 감정이 사라집니다.`}
-            </Text>
+            {hours + minutes === 0
+                ? "잠시 후 감정이 떠나갑니다."
+                : `${hours}시간 ${minutes}분 뒤에 감정을 떠나보냅니다`}
         </Box>
     );
 };
