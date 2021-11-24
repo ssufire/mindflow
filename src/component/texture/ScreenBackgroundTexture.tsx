@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { StatusBar } from "react-native";
 import { Box } from "native-base";
 import FastImage from "react-native-fast-image";
 
 export default function ScreenBackgroundTexture(props) {
+    useEffect(() => {
+        StatusBar.setBarStyle("dark-content");
+    }, []);
+
     return (
         <Box
             {...props}
@@ -24,6 +29,7 @@ export default function ScreenBackgroundTexture(props) {
                     top: 0,
                 }}
             />
+            <StatusBar backgroundColor="transparent" translucent={true} />
             {props.children}
         </Box>
     );
