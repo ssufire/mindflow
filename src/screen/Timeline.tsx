@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
@@ -7,6 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ScreenBackgroundTexture from "../component/texture/ScreenBackgroundTexture";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
 import DiaryCardContainer from "../container/DiaryCardContainer";
+import DiaryDateDivider from "../component/DiaryDateDivider";
 
 import checkShowDateDivider from "../lib/timeline/checkShowDateDivider";
 import subscribeMyDiary from "../lib/diary/subscribeMyDiary";
@@ -35,20 +35,14 @@ export default function Timeline() {
     const renderItem = useCallback(
         ({ item, index }) => (
             <>
-                {
-                    // * Show Divider when the date changed
-                    index !== 0 &&
-                        checkShowDateDivider(
-                            diary[index - 1].createdAt,
-                            item.createdAt
-                        ) && (
-                            <Text fontSize="lg" marginTop="3">
-                                {moment(item.createdAt).format(
-                                    "yyyy년 MM월 DD일"
-                                )}
-                            </Text>
-                        )
-                }
+                <DiaryDateDivider
+                    createdAt={item.createdAt}
+                    showDivider={checkShowDateDivider(
+                        index,
+                        diary[index - 1]?.createdAt,
+                        item.createdAt
+                    )}
+                />
                 <DiaryCardContainer {...item} author={nickname} key={item.id} />
             </>
         ),

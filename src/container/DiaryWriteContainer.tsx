@@ -1,11 +1,12 @@
+import { Alert } from "react-native";
 import React, { useEffect, useState } from "react";
+import { getEmotionColor } from "../lib/emotion/getEmotionColor";
 import DiaryWriteModal from "../component/DiaryWriteModal";
 import DiaryWrite from "../component/DiaryWrite";
 import writeDiary from "../lib/diary/writeDiary";
-import { getEmotionColor } from "../lib/emotion/getEmotionColor";
 
 export default function DiaryWriteContainer() {
-    const [text, setText, length] = useDiaryWrite();
+    const { text, setText, length } = useDiaryWrite();
     const [situation, setSituation] = useState("");
     const [emotion, setEmotion] = useState({
         emotion: "FINE",
@@ -14,18 +15,27 @@ export default function DiaryWriteContainer() {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const onPressEmotion = () => {
-        setModalVisible(true);
-    };
-
     const onPressWrite = async () => {
+        if (length === 0) {
+            Alert.alert("작성한 내용이 없습니다.");
+            return;
+        }
+
         await writeDiary(
             text,
             emotion.emotion,
             emotion.emotionIntensity,
             situation
-        );
+        ).then(() => setText(""));
     };
+
+    const onPressEmotionButton = (emotion, emotionIntensity) => {
+        setEmotion({ emotion, emotionIntensity });
+    };
+
+    const onPressSituationButton = (value) => setSituation(value);
+
+    const onPressShowModalButton = () => setModalVisible(true);
 
     return (
         <>
@@ -33,8 +43,9 @@ export default function DiaryWriteContainer() {
                 text={text}
                 length={length}
                 setText={setText}
+                situation={situation}
                 onPressWrite={onPressWrite}
-                onPressEmotion={onPressEmotion}
+                onPressShowModalButton={onPressShowModalButton}
                 emotionColor={getEmotionColor(
                     emotion.emotion,
                     emotion.emotionIntensity
@@ -44,9 +55,9 @@ export default function DiaryWriteContainer() {
                 emotion={emotion}
                 situation={situation}
                 modalVisible={modalVisible}
-                setEmotion={setEmotion}
-                setSituation={setSituation}
                 setModalVisible={setModalVisible}
+                onPressEmotionButton={onPressEmotionButton}
+                onPressSituationButton={onPressSituationButton}
             />
         </>
     );
@@ -66,5 +77,5 @@ const useDiaryWrite = (lengthLimit = 200) => {
         });
     }, [text]);
 
-    return [text, setText, length];
+    return { text, setText, length };
 };
