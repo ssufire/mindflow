@@ -4,4 +4,6 @@ declare module "@env" {
     export const SENTRY_DSN: string;
     export const CODEPUSH_PROD_ANDROID: string;
     export const CODEPUSH_PROD_IOS: string;
+    export const APPLE_SIGNIN_REDIRECTURI: string;
+    export const APPLE_SIGNIN_CLIENTID: string;
 }
