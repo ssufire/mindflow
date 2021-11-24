@@ -37,8 +37,6 @@ export default function DiaryWriteModal({
             />
             <Button
                 my="6"
-                // opacity="0.8"
-                // background="#B9ADA0"
                 background="#877E74"
                 onPress={() => setModalVisible(false)}
             >

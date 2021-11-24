@@ -39,7 +39,6 @@ export default function SignIn() {
                     <Text fontSize="xl" my="2" opacity="0.7">
                         마음흐름을 다음의 계정으로{"\n"}시작해보세요
                     </Text>
-                    {/* <Box flex="1" justifyContent="flex-end" alignItems="center"> */}
                     <Box marginTop="10">
                         <TouchableOpacity onPress={signInWithGoogle}>
                             <GoogleSignIn style={style.buttonStyle} />
@@ -48,7 +47,6 @@ export default function SignIn() {
                             <AppleSignIn style={style.buttonStyle} />
                         </TouchableOpacity>
                     </Box>
-                    {/* </Box> */}
                 </Box>
             </SafeAreaView>
         </ScreenBackgroundTexture>
