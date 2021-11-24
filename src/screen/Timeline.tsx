@@ -66,6 +66,16 @@ export default function Timeline() {
         []
     );
 
+    const ListEmptyComponent = useCallback(
+        () => (
+            <Text my="10" textAlign="center" fontSize="lg">
+                작성된 일기가 없습니다{"\n"}
+                첫번째 일기를 작성해보세요
+            </Text>
+        ),
+        []
+    );
+
     // * Declare Key Extractor for FlatList
     // * To Optimize Performance, wrap keyExtractor with useCallback
     const keyExtractor = useCallback((item) => item.id, [diary]);
@@ -79,6 +89,7 @@ export default function Timeline() {
                 removeClippedSubviews={true}
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={ListHeaderComponent}
+                ListEmptyComponent={ListEmptyComponent}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
             />
