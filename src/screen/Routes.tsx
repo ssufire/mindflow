@@ -11,6 +11,7 @@ import SignIn from "./SignIn";
 
 import onAuthStateChanged from "../lib/auth/onAuthStateChanged";
 import configAuthProvider from "../lib/auth/configAuthProvider";
+import Welcome from "./Welcome";
 
 export default function Routes() {
     const navigation = useNavigation();
@@ -47,6 +48,11 @@ export default function Routes() {
             <Stack.Screen
                 name="timeline"
                 component={Timeline}
+                options={screenOption}
+            />
+            <Stack.Screen
+                name="welcome"
+                component={Welcome}
                 options={screenOption}
             />
             <Stack.Screen

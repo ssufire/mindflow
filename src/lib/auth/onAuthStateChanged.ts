@@ -1,6 +1,5 @@
 import { Alert } from "react-native";
 import auth from "@react-native-firebase/auth";
-import setMyProfile from "../profile/setMyProfile";
 import getMyProfile from "../profile/getMyProfile";
 import { setNickname } from "../../redux/store/userInfo";
 import store from "../../redux/store";
@@ -8,14 +7,14 @@ import store from "../../redux/store";
 export default function onAuthStateChanged(navigation) {
     const subscribe = auth().onAuthStateChanged((user) => {
         if (user) {
-            setMyProfile()
-                .then(() => getMyProfile())
+            getMyProfile()
                 .then((profileData) => {
-                    if (profileData !== null) {
+                    if (profileData) {
                         store.dispatch(setNickname(profileData?.nickname));
+                        navigation.reset({ routes: [{ name: "timeline" }] });
+                    } else {
+                        navigation.navigate("welcome");
                     }
-
-                    navigation.reset({ routes: [{ name: "timeline" }] });
                 })
                 .catch((error) => {
                     console.log(error);
