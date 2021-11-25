@@ -7,27 +7,27 @@ import firestore from "@react-native-firebase/firestore";
  * @returns {() => void} Subscribe를 해제할 함수를 반환합니다.
  */
 export default function subscribeMyDiary(setDiary) {
-	// * Get current user's uid
-	const uid = auth().currentUser?.uid;
-	if (!uid) return null;
+    // * Get current user's uid
+    const uid = auth().currentUser?.uid;
+    if (!uid) return null;
 
-	// * Subscribe my diary data
-	const subscriber = firestore()
-		.collection("diary")
-		.where("author", "==", uid)
-		.orderBy("createdAt", "desc")
-		.onSnapshot((documentSnapshot) => {
-			if (auth().currentUser) {
-				setDiary(() =>
-					documentSnapshot.docs.map((value) => ({
-						...value.data(),
-						createdAt: value.data().createdAt.toDate(),
-						id: value.id,
-					}))
-				);
-			}
-		});
+    // * Subscribe my diary data
+    const subscriber = firestore()
+        .collection("diary")
+        .where("author", "==", uid)
+        .orderBy("createdAt", "desc")
+        .onSnapshot((documentSnapshot) => {
+            if (auth().currentUser) {
+                setDiary(() =>
+                    documentSnapshot.docs.map((value) => ({
+                        ...value.data(),
+                        createdAt: value.data().createdAt.toDate(),
+                        id: value.id,
+                    }))
+                );
+            }
+        });
 
-	// * Return subscriber to unsubscribe diary when the component unmounted.
-	return subscriber;
+    // * Return subscriber to unsubscribe diary when the component unmounted.
+    return subscriber;
 }
