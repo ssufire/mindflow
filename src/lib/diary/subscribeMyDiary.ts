@@ -17,13 +17,15 @@ export default function subscribeMyDiary(setDiary) {
 		.where("author", "==", uid)
 		.orderBy("createdAt", "desc")
 		.onSnapshot((documentSnapshot) => {
-			setDiary(() =>
-				documentSnapshot.docs.map((value) => ({
-					...value.data(),
-					createdAt: value.data().createdAt.toDate(),
-					id: value.id,
-				}))
-			);
+			if (auth().currentUser) {
+				setDiary(() =>
+					documentSnapshot.docs.map((value) => ({
+						...value.data(),
+						createdAt: value.data().createdAt.toDate(),
+						id: value.id,
+					}))
+				);
+			}
 		});
 
 	// * Return subscriber to unsubscribe diary when the component unmounted.
