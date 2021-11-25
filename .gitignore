@@ -78,3 +78,4 @@ buck-out/
 /ios/projectFire/GoogleService-Info.plist
 android/app/src/main/assets/appcenter-config.json
 ios/mindflow/AppCenter-Config.plist
+android/app/release/app-release.aab
