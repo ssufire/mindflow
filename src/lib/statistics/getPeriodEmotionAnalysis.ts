@@ -4,8 +4,9 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 export default async function getPeriodEmotionAnalysis(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
-    const dailyEmotionFlow = {};
-    const periodEmotion = {};
+    const dailyEmotionFlowAcc: DailyEmotionFlowAcc = {};
+    const periodEmotionAcc: PeriodEmotionAcc = {};
+    const dailyDiaryCount: DailyDiaryCount = {};
 
     for (const data of diary) {
         const {
@@ -19,88 +20,77 @@ export default async function getPeriodEmotionAnalysis(
         // * To prevent unexpected error
         const emotion = emotionString.toUpperCase();
 
-        // * If there are no data for currentDate or emotion in dailyEmotionFlow,
+        // * If there are no data for currentDate or emotion in dailyEmotionFlowAcc,
         // * Set initial value here
-        if (dailyEmotionFlow[dateString] === undefined)
-            dailyEmotionFlow[dateString] = {};
-        if (dailyEmotionFlow[dateString][emotion] === undefined)
-            dailyEmotionFlow[dateString][emotion] = {
+        if (dailyDiaryCount[dateString] === undefined)
+            dailyDiaryCount[dateString] = 0;
+        if (dailyEmotionFlowAcc[dateString] === undefined)
+            dailyEmotionFlowAcc[dateString] = {};
+        if (dailyEmotionFlowAcc[dateString][emotion] === undefined)
+            dailyEmotionFlowAcc[dateString][emotion] = {
                 intensitySum: 0,
                 count: 0,
             };
 
-        // * If there are no data for current emotion in periodEmotion,
+        // * If there are no data for current emotion in periodEmotionAcc,
         // * Set initial Value here
-        if (periodEmotion[emotion] === undefined)
-            periodEmotion[emotion] = { intensitySum: 0, count: 0 };
+        if (periodEmotionAcc[emotion] === undefined)
+            periodEmotionAcc[emotion] = { intensitySum: 0, count: 0 };
 
         // * To shorten the code, get prev value of current emotion
-        const prevDaily = dailyEmotionFlow[dateString][emotion];
-        const prevPeriod = periodEmotion[emotion];
+        const prevDaily = dailyEmotionFlowAcc[dateString][emotion];
+        const prevPeriod = periodEmotionAcc[emotion];
 
-        // * Add data to emotionDaily, periodEmotion
-        dailyEmotionFlow[dateString][emotion] = {
+        // * Add data to emotionDaily, periodEmotionAcc
+        dailyDiaryCount[dateString] += 1;
+        dailyEmotionFlowAcc[dateString][emotion] = {
             intensitySum: prevDaily.intensitySum + emotionIntensity,
             count: prevDaily.count + 1,
         };
 
-        periodEmotion[emotion] = {
+        periodEmotionAcc[emotion] = {
             intensitySum: prevPeriod.intensitySum + emotionIntensity,
             count: prevPeriod.count + 1,
         };
     }
 
-    let dailyMajorEmotionFlow = {};
-    let periodMajorEmotion = {
+    // * Declare DailyEmotionFlow, PeriodMajorEmotion
+    let dailyEmotionFlow: DailyEmotionFlow = { maxCount: 0, emotionFlow: {} };
+    let periodMajorEmotion: PeriodMajorEmotion = {
         emotion: null,
         emotionIntensity: -1,
     };
 
-    // * Get daily major emotion
-    for (const dateString in dailyEmotionFlow) {
-        let majorEmotion = null;
-        let majorEmotionAvgIntensity = -1;
+    // * Get daily emotion flow
+    for (const dateString in dailyEmotionFlowAcc) {
+        const currentDailyCount = dailyDiaryCount[dateString];
+        if (currentDailyCount > dailyEmotionFlow.maxCount)
+            dailyEmotionFlow.maxCount = currentDailyCount;
 
-        for (const emotion in dailyEmotionFlow[dateString]) {
-            // * Calculate the average intensity of given emotion
-            const currentEmotionAvgIntensity =
-                dailyEmotionFlow[dateString][emotion].intensitySum /
-                dailyEmotionFlow[dateString][emotion].count;
+        // * Get current day's emotion data
+        // * Convert Data format and sort the array in count descending order
+        const currentDayEmotions = dailyEmotionFlowAcc[dateString];
+        const sortedEmotions = Object.keys(currentDayEmotions)
+            .map((emotion) => {
+                const { intensitySum, count } = currentDayEmotions[emotion];
 
-            // * If majorEmotion value is falsy
-            // * Then assign current emotion as major.
-            if (!majorEmotion) {
-                majorEmotion = [emotion];
-                majorEmotionAvgIntensity = currentEmotionAvgIntensity;
-                continue;
-            }
+                return {
+                    count,
+                    emotion,
+                    emotionIntensity: intensitySum / count,
+                };
+            })
+            .sort((b, a) => b.count - a.count);
 
-            // * If currentEmotion's average intensity is higher than major,
-            // * Then change major emotion
-            if (currentEmotionAvgIntensity > majorEmotionAvgIntensity) {
-                majorEmotion = [emotion];
-                majorEmotionAvgIntensity = currentEmotionAvgIntensity;
-                continue;
-            }
-
-            // * If currentEmotion has same average intensity with major,
-            // * Then add current emotion to major
-            if (currentEmotionAvgIntensity === majorEmotionAvgIntensity) {
-                majorEmotion = [...majorEmotion, emotion];
-            }
-        }
-
-        // * Save major emotion data to dailyEmotionFlow
-        dailyMajorEmotionFlow[dateString] = {
-            emotion: majorEmotion,
-            emotionIntensity: majorEmotionAvgIntensity,
-        };
+        // * Append the data to dailyEmotionFlow
+        dailyEmotionFlow.emotionFlow[dateString] = sortedEmotions;
     }
 
     // * Get Period Major Emotion
-    for (const emotion of Object.keys(periodEmotion)) {
+    for (const emotion of Object.keys(periodEmotionAcc)) {
         const currentEmotionAvgIntensity =
-            periodEmotion[emotion].intensitySum / periodEmotion[emotion].count;
+            periodEmotionAcc[emotion].intensitySum /
+            periodEmotionAcc[emotion].count;
 
         // * If tmpPeriodMajor value is falsy
         // * Then assign current emotion as major.
@@ -130,5 +120,40 @@ export default async function getPeriodEmotionAnalysis(
         }
     }
 
-    return { dailyMajorEmotionFlow, periodMajorEmotion };
+    return { dailyEmotionFlow, periodMajorEmotion };
+}
+
+// * ---------------- Below the line, declare types ----------------
+
+interface DailyEmotionFlow {
+    maxCount: number;
+    emotionFlow: {
+        [dateString: string]: {
+            emotion: string;
+            emotionIntensity: number;
+            count: number;
+        }[];
+    };
+}
+
+interface DailyEmotionFlowAcc {
+    [dateString: string]: {
+        [emotion: string]: {
+            intensitySum: number;
+            count: number;
+        };
+    };
+}
+
+interface PeriodMajorEmotion {
+    emotion: string[];
+    emotionIntensity: number;
+}
+
+interface PeriodEmotionAcc {
+    [emotion: string]: { intensitySum: number; count: number };
+}
+
+interface DailyDiaryCount {
+    [dateString: string]: number;
 }
