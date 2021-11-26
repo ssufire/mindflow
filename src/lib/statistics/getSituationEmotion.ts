@@ -14,7 +14,7 @@ export async function getSituationEmotion(
                  */
                 {
                     emotion: string;
-                    emotionIntensityCount: number;
+                    count: number;
                     emotionIntensitySum: number;
                     emotionIntensityAvg?: number;
                     ratio?: number;
@@ -31,8 +31,7 @@ export async function getSituationEmotion(
                  */
                 {
                     situation: string;
-                    situationCount: number;
-                    emotionIntensityCount: number;
+                    count: number;
                     emotionIntensitySum: number;
                     emotionIntensityAvg?: number;
                     ratio?: number;
@@ -53,8 +52,7 @@ export async function getSituationEmotion(
             result.emotion[emotion] = [
                 {
                     situation,
-                    situationCount: 1,
-                    emotionIntensityCount: 1,
+                    count: 1,
                     emotionIntensitySum: emotionIntensity,
                 },
             ];
@@ -67,14 +65,12 @@ export async function getSituationEmotion(
             if (foundEmotion === undefined) {
                 result.emotion[emotion].push({
                     situation,
-                    situationCount: 1,
-                    emotionIntensityCount: 1,
+                    count: 1,
                     emotionIntensitySum: emotionIntensity,
                 });
             } else {
-                foundEmotion.emotionIntensityCount += 1;
+                foundEmotion.count += 1;
                 foundEmotion.emotionIntensitySum += emotionIntensity;
-                foundEmotion.situationCount += 1;
             }
         }
 
@@ -84,7 +80,7 @@ export async function getSituationEmotion(
             result.situation[situation] = [
                 {
                     emotion,
-                    emotionIntensityCount: 1,
+                    count: 1,
                     emotionIntensitySum: emotionIntensity,
                 },
             ];
@@ -97,41 +93,37 @@ export async function getSituationEmotion(
             if (foundSituation === undefined) {
                 result.situation[situation].push({
                     emotion,
-                    emotionIntensityCount: 1,
+                    count: 1,
                     emotionIntensitySum: emotionIntensity,
                 });
             } else {
-                foundSituation.emotionIntensityCount += 1;
+                foundSituation.count += 1;
                 foundSituation.emotionIntensitySum += emotionIntensity;
             }
         }
     }
 
     for (const emotion in result.emotion) {
+        let countAll = 0;
+        result.emotion[emotion].forEach((v) => (countAll += v.count));
+
         // * Calculate emotionIntensity average
         result.emotion[emotion].forEach((v) => {
-            v.emotionIntensityAvg =
-                v.emotionIntensitySum / v.emotionIntensityCount;
+            v.emotionIntensityAvg = v.emotionIntensitySum / v.count;
+            v.ratio = Math.round((v.count / countAll) * 100);
         });
         // * Sort emotionIntensity desc
-        result.emotion[emotion].sort(
-            (a, b) => b.emotionIntensityAvg - a.emotionIntensityAvg
-        );
+        result.emotion[emotion].sort((a, b) => b.ratio - a.ratio);
     }
 
     for (const situation in result.situation) {
-        let emotionIntensitySumAll = 0;
-        result.situation[situation].forEach(
-            (v) => (emotionIntensitySumAll += v.emotionIntensitySum)
-        );
+        let countAll = 0;
+        result.situation[situation].forEach((v) => (countAll += v.count));
 
         // * Calculate emotionIntensity average
         result.situation[situation].forEach((v) => {
-            v.emotionIntensityAvg =
-                v.emotionIntensitySum / v.emotionIntensityCount;
-            v.ratio = Math.round(
-                (v.emotionIntensitySum / emotionIntensitySumAll) * 100
-            );
+            v.emotionIntensityAvg = v.emotionIntensitySum / v.count;
+            v.ratio = Math.round((v.count / countAll) * 100);
         });
         // * Sort emotionIntensity desc
         result.situation[situation].sort((a, b) => b.ratio - a.ratio);
