@@ -3,6 +3,11 @@ import moment from "moment";
 import { Text } from "native-base";
 import DiaryCardTexture from "../texture/DiaryCardTexture";
 import SituationItem from "./SituationItem";
+import { SituationStatisticsType } from "../../lib/statistics/getSituationStatistics";
+
+interface SituationStatisticsProps {
+    data?: SituationStatisticsType[];
+}
 
 /**
  * @description 상황별 감정 통계를 표현하는 Component 입니다.
@@ -12,7 +17,7 @@ export default function SituationStatistics({
     data = [
         { situation: "", emotion: [{ emotionColor: "#ffffff", ratio: 1 }] },
     ],
-}) {
+}: SituationStatisticsProps) {
     return (
         <DiaryCardTexture>
             <Text fontSize="lg" my="2">
