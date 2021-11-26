@@ -7,9 +7,11 @@ export default function DiaryEmotion({
     borderColor = "#ffffff",
     borderRadius = "xl",
     showBorder = false,
+    ...props
 }) {
     return (
         <Box
+            {...props}
             p={size}
             borderRadius={borderRadius}
             background={color}

@@ -9,6 +9,7 @@ import PeriodMajorStatistics from "../component/statistics/PeriodMajorStatistics
 import PeriodFlowStatistics from "../component/statistics/PeriodFlowStatistics";
 import SituationStatistics from "../component/statistics/SituationStatistics";
 import EmotionStatistics from "../component/statistics/EmotionStatistics";
+import { getSituationStatistics } from "../lib/statistics/getSituationStatistics";
 
 export default function Statistics() {
     const navigation = useNavigation();
@@ -19,6 +20,8 @@ export default function Statistics() {
         emotionIntensity: -1,
     });
 
+    const [situation, setSituation] = useState([]);
+
     useEffect(() => {
         // getDiaryWeek().then((res: any) => {
         //     if (res) {
@@ -27,6 +30,8 @@ export default function Statistics() {
         //         console.log("DailyEmotionFlow", res.dailyEmotionFlow);
         //     }
         // });
+
+        getSituationStatistics().then((res) => setSituation(res));
     }, []);
 
     useEffect(() => {
@@ -45,7 +50,7 @@ export default function Statistics() {
                             <PeriodMajorStatistics />
                             <PeriodFlowStatistics />
                             <EmotionStatistics />
-                            <SituationStatistics />
+                            <SituationStatistics data={situation} />
                         </>
                     )}
                 </ScrollView>

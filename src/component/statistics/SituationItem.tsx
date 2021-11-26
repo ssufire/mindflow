@@ -15,11 +15,11 @@ export default function SituationItem({
     ],
 }) {
     return (
-        <Box my="2">
-            <Text my="2" fontSize="xl">
+        <Box my="5">
+            <Text fontSize="lg" opacity="0.87">
                 {situation}
             </Text>
-            <HStack rounded="full" height="3">
+            <HStack height="3" my="3">
                 {emotion.map(({ emotionColor, ratio }, index) => (
                     <Box
                         mx="0.5"
@@ -34,17 +34,24 @@ export default function SituationItem({
                     />
                 ))}
             </HStack>
-            <HStack my="5" px="2" alignItems="center" alignSelf="center">
-                {emotion.map(({ emotionColor, ratio }) => (
-                    <Box flexDirection="row" alignItems="center" mx="2">
+            <HStack alignItems="center">
+                {emotion.map(({ emotionColor, ratio }, index) => (
+                    <Box
+                        mx="2"
+                        flexDirection="row"
+                        alignItems="center"
+                        marginLeft={index === 0 ? "1" : "2"}
+                    >
                         <DiaryEmotion
-                            size="2"
+                            size="1.5"
                             width="3"
                             height="3"
-                            borderRadius="md"
+                            borderRadius="sm"
                             color={emotionColor}
                         />
-                        <Text mx="1">{ratio * 100}%</Text>
+                        <Text mx="1" fontSize="sm">
+                            {ratio}%
+                        </Text>
                     </Box>
                 ))}
             </HStack>
