@@ -1,44 +1,46 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
+export interface SituationEmotionType {
+    /**
+     * 상황별 감정 강도
+     */
+    situation: {
+        [situation: string]: [
+            /**
+             * emotionIntensityAvg 내림차순
+             */
+            {
+                emotion: string;
+                count: number;
+                emotionIntensitySum: number;
+                emotionIntensityAvg?: number;
+                ratio?: number;
+            }
+        ];
+    };
+    /**
+     * 감정에 따른 상황
+     */
+    emotion: {
+        [emotion: string]: [
+            /**
+             * emotionIntensityAvg 내림차순
+             */
+            {
+                situation: string;
+                count: number;
+                emotionIntensitySum: number;
+                emotionIntensityAvg?: number;
+                ratio?: number;
+            }
+        ];
+    };
+}
+
 export async function getSituationEmotion(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
-    const result: {
-        /**
-         * 상황별 감정 강도
-         */
-        situation: {
-            [situation: string]: [
-                /**
-                 * emotionIntensityAvg 내림차순
-                 */
-                {
-                    emotion: string;
-                    count: number;
-                    emotionIntensitySum: number;
-                    emotionIntensityAvg?: number;
-                    ratio?: number;
-                }
-            ];
-        };
-        /**
-         * 감정에 따른 상황
-         */
-        emotion: {
-            [emotion: string]: [
-                /**
-                 * emotionIntensityAvg 내림차순
-                 */
-                {
-                    situation: string;
-                    count: number;
-                    emotionIntensitySum: number;
-                    emotionIntensityAvg?: number;
-                    ratio?: number;
-                }
-            ];
-        };
-    } = {
+    const result: SituationEmotionType = {
         situation: {},
         emotion: {},
     };
@@ -129,7 +131,7 @@ export async function getSituationEmotion(
         result.situation[situation].sort((a, b) => b.ratio - a.ratio);
     }
 
-    console.log("getMajorEmotion", result);
+    console.log("getSituationEmotion", result);
 
     return result;
 }
