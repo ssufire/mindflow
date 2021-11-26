@@ -20,5 +20,5 @@ export default async function getDiaryWeek() {
         .get({ source: "server" })
         .then((v) => v.docs);
 
-    return getPeriodEmotionAnalysis(result);
+    return result;
 }

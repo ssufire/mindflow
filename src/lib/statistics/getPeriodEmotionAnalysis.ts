@@ -1,5 +1,9 @@
 import moment from "moment";
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import {
+    DailyEmotionFlowStatisticsType,
+    PeriodMajorEmotionStatisticsType,
+} from "../../types/statistics";
 
 export default async function getPeriodEmotionAnalysis(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
@@ -55,8 +59,11 @@ export default async function getPeriodEmotionAnalysis(
     }
 
     // * Declare DailyEmotionFlow, PeriodMajorEmotion
-    let dailyEmotionFlow: DailyEmotionFlow = { maxCount: 0, emotionFlow: {} };
-    let periodMajorEmotion: PeriodMajorEmotion = {
+    let dailyEmotionFlow: DailyEmotionFlowStatisticsType = {
+        maxCount: 0,
+        emotionFlow: {},
+    };
+    let periodMajorEmotion: PeriodMajorEmotionStatisticsType = {
         emotion: null,
         emotionIntensity: -1,
     };
@@ -125,17 +132,6 @@ export default async function getPeriodEmotionAnalysis(
 
 // * ---------------- Below the line, declare types ----------------
 
-interface DailyEmotionFlow {
-    maxCount: number;
-    emotionFlow: {
-        [dateString: string]: {
-            emotion: string;
-            emotionIntensity: number;
-            count: number;
-        }[];
-    };
-}
-
 interface DailyEmotionFlowAcc {
     [dateString: string]: {
         [emotion: string]: {
@@ -143,11 +139,6 @@ interface DailyEmotionFlowAcc {
             count: number;
         };
     };
-}
-
-interface PeriodMajorEmotion {
-    emotion: string[];
-    emotionIntensity: number;
 }
 
 interface PeriodEmotionAcc {
