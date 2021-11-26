@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
     createStackNavigator,
@@ -14,14 +14,16 @@ import configAuthProvider from "../lib/auth/configAuthProvider";
 import Welcome from "./Welcome";
 
 export default function Routes() {
+    const subscribe = useRef(null);
     const navigation = useNavigation();
 
     useEffect(() => {
         configAuthProvider();
-        const subscribe = onAuthStateChanged(navigation);
+        if (!subscribe.current)
+            subscribe.current = onAuthStateChanged(navigation);
 
         return () => {
-            if (subscribe) subscribe();
+            if (subscribe.current) subscribe.current();
         };
     }, []);
 
