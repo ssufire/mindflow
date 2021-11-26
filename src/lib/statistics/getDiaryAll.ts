@@ -1,6 +1,5 @@
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import { getSituationEmotion } from "./getSituationEmotion";
 
 export default async function getDiaryAll() {
     // * Get current user's uid
@@ -14,5 +13,5 @@ export default async function getDiaryAll() {
         .get()
         .then((v) => v.docs);
 
-    return getSituationEmotion(result);
+    return result;
 }
