@@ -39,7 +39,7 @@ export default function SignIn() {
                     <Text fontSize="xl" my="2" opacity="0.7">
                         마음흐름을 다음의 계정으로{"\n"}시작해보세요
                     </Text>
-                    <Box marginTop="10">
+                    <Box marginTop="10" alignItems="center">
                         <TouchableOpacity onPress={signInWithGoogle}>
                             <GoogleSignIn style={style.buttonStyle} />
                         </TouchableOpacity>
