@@ -7,11 +7,11 @@ import {
 } from "@react-navigation/stack";
 import Statistics from "./Statistics";
 import Timeline from "./Timeline";
+import Welcome from "./Welcome";
 import SignIn from "./SignIn";
 
 import onAuthStateChanged from "../lib/auth/onAuthStateChanged";
 import configAuthProvider from "../lib/auth/configAuthProvider";
-import Welcome from "./Welcome";
 
 export default function Routes() {
     const subscribe = useRef(null);
@@ -27,16 +27,10 @@ export default function Routes() {
         };
     }, []);
 
-    // * Create StackNavigator
+    // * Create Stack Navigator and related options
     const Stack = createStackNavigator();
-
-    const TransitionScreenOptions = {
-        ...TransitionPresets.SlideFromRightIOS, // This is where the transition happens
-    };
-
-    const screenOption: StackNavigationOptions = {
-        headerShown: false,
-    };
+    const TransitionScreenOptions = { ...TransitionPresets.SlideFromRightIOS };
+    const screenOption: StackNavigationOptions = { headerShown: false };
 
     // <--------------------DIVIDER-------------------------->
 
