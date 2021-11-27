@@ -30,7 +30,7 @@ export default function SituationItem({
                         borderRightRadius={
                             index === emotion.length - 1 ? "full" : "0"
                         }
-                        key={`${situation}_${ratio}_bar`}
+                        key={`${situation}_${emotionColor}_bar`}
                     />
                 ))}
             </HStack>

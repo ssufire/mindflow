@@ -1,7 +1,8 @@
 import React from "react";
-import { HStack, Text } from "native-base";
+import { HStack } from "native-base";
 import DiaryEmotion from "../emotion/Emotion";
 import DiaryCardTexture from "../texture/DiaryCardTexture";
+import StatisticsHeading from "./StatisticsHeading";
 
 /**
  * @description 일주일 간의 주요 감정 통계를 표현하는 Component입니다.
@@ -13,11 +14,12 @@ export default function PeriodMajorStatistics({
     emotionColor = ["#ffffff"],
 }) {
     return (
-        <DiaryCardTexture>
-            <Text>
-                {nickname}님의 일주일은{"\n"}[]한 주간이었어요.
-            </Text>
-            <HStack my="5" justifyContent="center">
+        <DiaryCardTexture px="4">
+            <StatisticsHeading
+                text={`${nickname}님의 일주일은${"\n"}이런 색이었어요`}
+                showDate={false}
+            />
+            <HStack marginBottom="5" justifyContent="center">
                 {emotionColor.map((value) => (
                     <DiaryEmotion
                         key={value}

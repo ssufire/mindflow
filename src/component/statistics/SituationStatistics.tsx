@@ -1,8 +1,8 @@
 import React from "react";
-import moment from "moment";
-import { Box, Text } from "native-base";
-import DiaryCardTexture from "../texture/DiaryCardTexture";
+import { Box } from "native-base";
 import SituationItem from "./SituationItem";
+import StatisticsHeading from "./StatisticsHeading";
+import DiaryCardTexture from "../texture/DiaryCardTexture";
 import { SituationStatisticsType } from "../../lib/statistics/getSituationStatistics";
 
 interface SituationStatisticsProps {
@@ -19,14 +19,10 @@ export default function SituationStatistics({
     ],
 }: SituationStatisticsProps) {
     return (
-        <DiaryCardTexture>
-            <Text fontSize="lg" my="2">
-                이런 상황에서는{"\n"}
-                이런 감정을 느꼈어요.{"\n"}
-                <Text fontSize="sm" opacity="0.7">
-                    {moment().format("MM월 DD일 기준")}
-                </Text>
-            </Text>
+        <DiaryCardTexture px="4">
+            <StatisticsHeading
+                text={`이런 상황에서는${"\n"}이런 감정을 느꼈어요.`}
+            />
             <Box p="2">
                 {data.map((item) => (
                     <SituationItem

@@ -3,6 +3,7 @@ import moment from "moment";
 import { Box, HStack, Text } from "native-base";
 import { getEmotionColor } from "../../lib/emotion/getEmotionColor";
 import DiaryCardTexture from "../texture/DiaryCardTexture";
+import StatisticsHeading from "./StatisticsHeading";
 
 /**
  * @description 특정 기간동안의 감정 데이터 통계를 표출하는 Copmonent입니다.
@@ -10,19 +11,14 @@ import DiaryCardTexture from "../texture/DiaryCardTexture";
  * @param emotionFlow 해당 기간 동안의 감정 데이터를 전달합니다
  */
 export default function PeriodFlowStatistics({
-    maxCount = 5,
-    emotionFlow = {
-        "2021-11-24": [{ count: 5, emotion: "FINE", emotionIntensity: 1 }],
-        "2021-11-27": [
-            { count: 1, emotion: "ANGER", emotionIntensity: 2 },
-            { count: 2, emotion: "FINE", emotionIntensity: 1 },
-        ],
-    },
+    maxCount = -1,
+    emotionFlow = {},
 }) {
     return (
-        <DiaryCardTexture>
-            <Text>일주일동안{"\n"}이런 감정 흐름을 보였어요</Text>
-            <Text>{moment().format("MM월 DD일 기준")}</Text>
+        <DiaryCardTexture px="4">
+            <StatisticsHeading
+                text={`일주일동안${"\n"}이런 감정 흐름을 보였어요`}
+            />
             <HStack
                 my="5"
                 height="250"

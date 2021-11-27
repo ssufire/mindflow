@@ -1,8 +1,8 @@
 import React from "react";
-import moment from "moment";
-import { Text, HStack } from "native-base";
-import DiaryCardTexture from "../texture/DiaryCardTexture";
+import { HStack } from "native-base";
 import EmotionItem from "./EmotionItem";
+import StatisticsHeading from "./StatisticsHeading";
+import DiaryCardTexture from "../texture/DiaryCardTexture";
 
 /**
  * @description 감정별 상황 통계를 렌더하는 Component입니다.
@@ -25,14 +25,10 @@ export default function EmotionStatistics({
     ],
 }) {
     return (
-        <DiaryCardTexture>
-            <Text fontSize="lg" my="2">
-                이런 감정에서는{"\n"}
-                주로 이런 상황이었어요
-            </Text>
-            <Text fontSize="sm" opacity="0.7">
-                {moment().format("MM월 DD일 기준")}
-            </Text>
+        <DiaryCardTexture px="4">
+            <StatisticsHeading
+                text={`이런 감정에서는${"\n"}주로 이런 상황이었어요`}
+            />
             <HStack justifyContent="space-around" my="5" mx="4">
                 {data.map(
                     (value, index) =>
