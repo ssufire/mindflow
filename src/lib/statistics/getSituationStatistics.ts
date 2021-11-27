@@ -1,16 +1,12 @@
-import { SituationStatisticsType } from "../../types/statistics";
-import { getSituationEmotion } from "./getSituationEmotion";
+import getSituationEmotion from "./getSituationEmotion";
 import { getEmotionColor } from "../emotion/getEmotionColor";
-import getDiaryAll from "./getDiaryAll";
+import { SituationStatisticsType } from "../../types/statistics";
 
-export default async function getSituationStatistics(): Promise<
-    SituationStatisticsType[]
-> {
-    const diary = await getDiaryAll();
-    const situationEmoticon = await getSituationEmotion(diary);
+export default function getSituationStatistics(
+    diaryData
+): SituationStatisticsType[] {
+    const situationEmoticon = getSituationEmotion(diaryData);
     const data: SituationStatisticsType[] = [];
-
-    console.log("situationEmotion", situationEmoticon);
 
     for (const situation in situationEmoticon.situation) {
         const emotion = situationEmoticon.situation[situation].map((v) => {

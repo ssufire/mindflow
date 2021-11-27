@@ -1,7 +1,7 @@
 import getDiaryWeek from "./getDiaryWeek";
-import getPeriodEmotionAnalysis from "./getPeriodEmotionAnalysis";
+import getPeriodStatistics from "./getPeriodStatistics";
 
 export default async function getWeeklyStatistics() {
     const diary = await getDiaryWeek();
-    return await getPeriodEmotionAnalysis(diary);
+    return await getPeriodStatistics(diary);
 }

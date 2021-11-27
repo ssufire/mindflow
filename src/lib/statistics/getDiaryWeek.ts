@@ -1,7 +1,6 @@
 import moment from "moment";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import getPeriodEmotionAnalysis from "./getPeriodEmotionAnalysis";
 
 export default async function getDiaryWeek() {
     // * Get current user's uid

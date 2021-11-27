@@ -5,12 +5,19 @@ import {
     PeriodMajorEmotionStatisticsType,
 } from "../../types/statistics";
 
-export default async function getPeriodEmotionAnalysis(
+export default async function getPeriodStatistics(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
     const dailyEmotionFlowAcc: DailyEmotionFlowAcc = {};
     const periodEmotionAcc: PeriodEmotionAcc = {};
     const dailyDiaryCount: DailyDiaryCount = {};
+
+    // * Declare initial data for dailyEmotionFlow, dailyDiaryCount
+    for (let i = 6; i >= 0; i -= 1) {
+        const dateString = moment().subtract(i, "days").format("YYYY-MM-DD");
+        dailyDiaryCount[dateString] = 0;
+        dailyEmotionFlowAcc[dateString] = {};
+    }
 
     for (const data of diary) {
         const {
@@ -26,10 +33,6 @@ export default async function getPeriodEmotionAnalysis(
 
         // * If there are no data for currentDate or emotion in dailyEmotionFlowAcc,
         // * Set initial value here
-        if (dailyDiaryCount[dateString] === undefined)
-            dailyDiaryCount[dateString] = 0;
-        if (dailyEmotionFlowAcc[dateString] === undefined)
-            dailyEmotionFlowAcc[dateString] = {};
         if (dailyEmotionFlowAcc[dateString][emotion] === undefined)
             dailyEmotionFlowAcc[dateString][emotion] = {
                 intensitySum: 0,

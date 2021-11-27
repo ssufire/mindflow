@@ -37,7 +37,7 @@ export interface SituationEmotionType {
     };
 }
 
-export async function getSituationEmotion(
+export default function getSituationEmotion(
     diary: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
 ) {
     const result: SituationEmotionType = {

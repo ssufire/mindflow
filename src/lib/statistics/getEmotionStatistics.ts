@@ -1,10 +1,8 @@
-import getDiaryAll from "./getDiaryAll";
+import getSituationEmotion from "./getSituationEmotion";
 import { getEmotionColor } from "../emotion/getEmotionColor";
-import { getSituationEmotion } from "./getSituationEmotion";
 
-export default async function getEmotionStatistics() {
-    const diary = await getDiaryAll();
-    const emotion = await (await getSituationEmotion(diary)).emotion;
+export default function getEmotionStatistics(diaryData) {
+    const emotion = getSituationEmotion(diaryData).emotion;
 
     return Object.keys(emotion).map((currEmotion) => {
         const emotionData = emotion[currEmotion][0];
