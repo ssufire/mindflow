@@ -27,6 +27,7 @@ export default function DiaryExplodeModal({
             >
                 {timelist.map((value) => (
                     <Picker.Item
+                        color="black"
                         label={`${value}시간 후`}
                         value={value}
                         key={value}

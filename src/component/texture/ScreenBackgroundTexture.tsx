@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { Box } from "native-base";
 import FastImage from "react-native-fast-image";
 
 export default function ScreenBackgroundTexture(props) {
     useEffect(() => {
         StatusBar.setBarStyle("dark-content");
+        console.log("currentHeight", StatusBar.currentHeight);
     }, []);
 
     return (
@@ -17,6 +18,10 @@ export default function ScreenBackgroundTexture(props) {
             right="0"
             left="0"
             top="0"
+            style={{
+                paddingTop:
+                    Platform.OS === "android" ? StatusBar.currentHeight : 0,
+            }}
         >
             <FastImage
                 source={require("../../asset/backgroundPaperTexture.jpg")}
