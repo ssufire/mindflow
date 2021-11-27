@@ -6,10 +6,7 @@ import store from "../../redux/store";
 
 export default async function setMyProfile(nickname) {
     if (nickname.length < 1 || nickname.length > 10) {
-        Alert.alert(
-            "올바르지 않은 닉네임",
-            "닉네임을 한 글자 이상, 열 글자 이하로 입력해주세요"
-        );
+        Alert.alert("닉네임 오류", "2-10글자의 닉네임을 입력해주세요");
         return false;
     }
 

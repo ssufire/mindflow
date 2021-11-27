@@ -10,6 +10,12 @@ export default function Welcome() {
     const navigation = useNavigation();
     const [nickname, setNickname] = useState(auth().currentUser.displayName);
 
+    const onPressConfirm = async () => {
+        await setMyProfile(nickname).then((res) => {
+            if (res) navigation.reset({ routes: [{ name: "timeline" }] });
+        });
+    };
+
     return (
         <ScreenBackgroundTexture>
             <SafeAreaView style={{ flex: 1 }}>
@@ -22,13 +28,13 @@ export default function Welcome() {
                     >
                         환영합니다!
                     </Text>
-                    <Text fontSize="md" my="2" opacity="0.7">
+                    <Text fontSize="lg" my="2" opacity="0.7">
                         마음흐름에서 사용할 이름을 작성해주세요
                     </Text>
                     <Input
                         value={nickname}
                         onChangeText={setNickname}
-                        placeholder="이름을 입력해주세요"
+                        placeholder="2-10글자의 닉네임을 입력해주세요"
                         fontSize="lg"
                         opacity="0.8"
                         marginTop="5"
@@ -43,14 +49,8 @@ export default function Welcome() {
                                 my="2"
                                 marginLeft="5"
                                 background="#2E2B27"
-                                onPress={async () =>
-                                    await setMyProfile(nickname).then((res) => {
-                                        if (res)
-                                            navigation.reset({
-                                                routes: [{ name: "timeline" }],
-                                            });
-                                    })
-                                }
+                                onPress={onPressConfirm}
+                                _text={{ fontSize: "md" }}
                             >
                                 확인
                             </Button>
