@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import { SENTRY_DSN } from "@env";
 import { Provider } from "react-redux";
+import { Platform } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { extendTheme, NativeBaseProvider } from "native-base";
-import { NavigationContainer } from "@react-navigation/native";
+import { CODEPUSH_PROD_ANDROID, CODEPUSH_PROD_IOS, SENTRY_DSN } from "@env";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { CODEPUSH_PROD_ANDROID, CODEPUSH_PROD_IOS } from "@env";
+import { NavigationContainer } from "@react-navigation/native";
 import codePush from "react-native-code-push";
 import Routes from "./src/screen/Routes";
 import store from "./src/redux/store";
-import { Platform } from "react-native";
 
 const theme = extendTheme({
     fonts: {

@@ -6,7 +6,6 @@ import FastImage from "react-native-fast-image";
 export default function ScreenBackgroundTexture(props) {
     useEffect(() => {
         StatusBar.setBarStyle("dark-content");
-        console.log("currentHeight", StatusBar.currentHeight);
     }, []);
 
     return (
