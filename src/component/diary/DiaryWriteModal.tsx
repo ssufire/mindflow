@@ -39,6 +39,7 @@ export default function DiaryWriteModal({
                 my="6"
                 background="#877E74"
                 onPress={() => setModalVisible(false)}
+                _text={{ fontSize: "md" }}
             >
                 확인
             </Button>
@@ -57,7 +58,7 @@ const intensity = getEmotionIntensity();
  */
 const EmotionSelect = ({ onPressEmotionButton, emotion }) => (
     <Box style={{ flex: 1 }}>
-        <Text fontSize="md" my="2">
+        <Text fontSize="lg" my="2">
             감정을 선택해주세요
         </Text>
         {emotionList.map((name) => (
@@ -93,7 +94,7 @@ const EmotionSelect = ({ onPressEmotionButton, emotion }) => (
  */
 const SituationSelect = ({ onPressSituationButton, situation }) => (
     <Box>
-        <Text fontSize="md" my="2">
+        <Text fontSize="lg" my="2">
             적절한 상황을 선택해주세요
         </Text>
         <Box mx="-1" my="2" flex="1" flexWrap="wrap" flexDirection="row">

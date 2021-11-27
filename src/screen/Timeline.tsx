@@ -1,8 +1,10 @@
-import { Platform } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import { Text, FlatList, Box } from "native-base";
+import { Text, FlatList, Box, HStack, Icon } from "native-base";
 import React, { useCallback, useEffect, useState } from "react";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 import ScreenBackgroundTexture from "../component/texture/ScreenBackgroundTexture";
 import DiaryWriteContainer from "../container/DiaryWriteContainer";
 import DiaryCardContainer from "../container/DiaryCardContainer";
@@ -51,15 +53,33 @@ export default function Timeline() {
 
     const ListHeaderComponent = useCallback(
         () => (
-            <Box marginTop={Platform.OS === "ios" ? "50" : "5"}>
-                <Text
-                    fontFamily="heading"
-                    fontWeight="600"
-                    fontSize="2xl"
-                    opacity="0.87"
-                >
-                    타임라인
-                </Text>
+            <Box my="6">
+                <HStack justifyContent="space-between">
+                    <Box>
+                        <Text
+                            fontFamily="heading"
+                            fontWeight="600"
+                            fontSize="2xl"
+                            opacity="0.87"
+                        >
+                            타임라인
+                        </Text>
+                        <Text fontSize="lg" my="1">
+                            지금 기분이 어떤가요?
+                        </Text>
+                    </Box>
+                    <TouchableOpacity
+                        style={{ justifyContent: "center" }}
+                        onPress={() => navigation.navigate("statistics")}
+                    >
+                        <Icon
+                            as={MaterialIcons}
+                            name="bar-chart"
+                            size="md"
+                            opacity="0.8"
+                        />
+                    </TouchableOpacity>
+                </HStack>
                 <DiaryWriteContainer />
             </Box>
         ),
@@ -82,17 +102,19 @@ export default function Timeline() {
 
     return (
         <ScreenBackgroundTexture>
-            <FlatList
-                px="5"
-                data={diary}
-                contentContainerStyle={{ paddingBottom: 50 }}
-                removeClippedSubviews={true}
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={ListHeaderComponent}
-                ListEmptyComponent={ListEmptyComponent}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-            />
+            <SafeAreaView style={{ flex: 1 }}>
+                <FlatList
+                    px="5"
+                    data={diary}
+                    contentContainerStyle={{ paddingBottom: 50 }}
+                    removeClippedSubviews={true}
+                    showsVerticalScrollIndicator={false}
+                    ListHeaderComponent={ListHeaderComponent}
+                    ListEmptyComponent={ListEmptyComponent}
+                    renderItem={renderItem}
+                    keyExtractor={keyExtractor}
+                />
+            </SafeAreaView>
         </ScreenBackgroundTexture>
     );
 }

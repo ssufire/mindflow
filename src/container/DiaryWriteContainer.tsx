@@ -33,7 +33,8 @@ export default function DiaryWriteContainer() {
         setEmotion({ emotion, emotionIntensity });
     };
 
-    const onPressSituationButton = (value) => setSituation(value);
+    const onPressSituationButton = (value) =>
+        setSituation((prev) => (prev === value ? "" : value));
 
     const onPressShowModalButton = () => setModalVisible(true);
 

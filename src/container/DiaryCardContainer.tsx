@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Alert } from "react-native";
-import DiaryCard from "../component/diary/DiaryCard";
-import DiaryCardDeleted from "../component/diary/DiaryCardDeleted";
-import DiaryExplodeModalContainer from "./DiaryExplodeModalContainer";
-
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import cancelDiaryBomb from "../lib/diary/cancelDiaryBomb";
+import DiaryExplodeModalContainer from "./DiaryExplodeModalContainer";
+import DiaryCard from "../component/diary/DiaryCard";
 
 export default function DiaryCardContainer(props) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +28,7 @@ export default function DiaryCardContainer(props) {
                     props.explodedAt !== null
                         ? Alert.alert(
                               "감정 붙잡기",
-                              "이 감정을 떠나보내지 않으시겠어요?",
+                              "감정을 붙잡으면 타임라인에서 일기가 사라지지 않습니다.",
                               [
                                   {
                                       text: "예",
@@ -55,20 +53,20 @@ export default function DiaryCardContainer(props) {
         showActionSheetWithOptions(actionSheetOption, actionSheetFunction);
     };
 
-    return exploded ? (
-        <DiaryCardDeleted />
-    ) : (
-        <>
-            <DiaryCard
-                {...props}
-                onPressActionSheet={onPressActionSheet}
-                setExploded={setExploded}
-            />
-            <DiaryExplodeModalContainer
-                id={props.id}
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-            />
-        </>
+    return (
+        !exploded && (
+            <>
+                <DiaryCard
+                    {...props}
+                    onPressActionSheet={onPressActionSheet}
+                    setExploded={setExploded}
+                />
+                <DiaryExplodeModalContainer
+                    id={props.id}
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                />
+            </>
+        )
     );
 }

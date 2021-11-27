@@ -18,7 +18,7 @@ export default function DiaryExplodeModal({
             modalVisible={modalVisible}
             onClose={() => setModalVisible(false)}
         >
-            <Text textAlign="center" fontSize="md" my="3">
+            <Text textAlign="center" fontSize="lg" my="3">
                 지금 이 감정,{"\n"}언제 떠나보내실 건가요?
             </Text>
             <Picker
@@ -35,9 +35,9 @@ export default function DiaryExplodeModal({
             </Picker>
             <Button
                 m="3"
-                mx="5"
                 background="#877E74"
                 onPress={onPressSetTimebomb}
+                _text={{ fontSize: "md" }}
             >
                 떠나보내기
             </Button>

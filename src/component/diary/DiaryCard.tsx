@@ -35,7 +35,7 @@ export default function DiaryCard({
                     onPressActionSheet={onPressActionSheet}
                 />
                 <Divider marginTop="3" opacity="0.8" />
-                <Text fontSize="sm" my="4">
+                <Text fontSize="md" my="4">
                     {text}
                 </Text>
             </DiaryCardTexture>
@@ -52,8 +52,8 @@ const DiaryCardHeader = ({
     onPressActionSheet,
 }) => {
     const HeaderText = () => (
-        <Box flex={1} mx="2">
-            <Text fontSize="md" color={situation ? "gray.500" : "darkText"}>
+        <Box flex={1} mx="3">
+            <Text fontSize="lg" color={situation ? "gray.500" : "darkText"}>
                 {situation && (
                     <Text>
                         <Text color="darkText">{situation}</Text> 중인{" "}
@@ -61,7 +61,7 @@ const DiaryCardHeader = ({
                 )}
                 {author}
             </Text>
-            <Text fontSize="xs" my="0">
+            <Text fontSize="sm" my="0">
                 {moment(createdAt).format("A h시 mm분")}
             </Text>
         </Box>
@@ -95,18 +95,21 @@ const Timebomb = ({ explodedAt, setExploded }) => {
 
     return (
         <Box
-            p="2"
+            p="1.5"
+            px="5"
             opacity="0.9"
             marginTop="3"
             marginBottom="-1.5"
             borderRadius="lg"
             background="#2E2B27"
             alignSelf="flex-start"
-            _text={{ color: "white", fontWeight: "semibold", fontSize: "xs" }}
+            _text={{ color: "white", fontWeight: "semibold", fontSize: "sm" }}
         >
             {hours + minutes === 0
-                ? "잠시 후 감정이 떠나갑니다."
-                : `${hours}시간 ${minutes}분 뒤에 감정을 떠나보냅니다`}
+                ? "잠시 후 감정이 사라집니다"
+                : hours === 0
+                ? `${minutes}분`
+                : `${hours}시간 ${minutes}분`}
         </Box>
     );
 };
