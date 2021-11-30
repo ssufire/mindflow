@@ -1,13 +1,14 @@
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
+import { captureEvent, Severity } from "@sentry/react";
 import { APPLE_SIGNIN_CLIENTID, APPLE_SIGNIN_REDIRECTURI } from "@env";
 import {
     appleAuth,
     appleAuthAndroid,
 } from "@invertase/react-native-apple-authentication";
-import auth from "@react-native-firebase/auth";
 import onAuthStateChanged from "./onAuthStateChanged";
+import auth from "@react-native-firebase/auth";
 
 export default async function signInWithApple(navigation) {
     // * Get idToken, nonce using AppleSignIn function
@@ -19,10 +20,28 @@ export default async function signInWithApple(navigation) {
     // * Get Firebase credential
     const appleCredential = auth.AppleAuthProvider.credential(idToken, nonce);
 
+    captureEvent({
+        message: "appleCredential",
+        extra: { appleCredential },
+        level: Severity.Info,
+    });
+
     // * Sign the user in with the credential
     auth()
         .signInWithCredential(appleCredential)
-        .then((res) => onAuthStateChanged(res.user, navigation));
+        .then((res) => onAuthStateChanged(res.user, navigation))
+        .catch((error) => {
+            console.error("Sign In With Apple Error", error);
+            captureEvent({
+                message: "[Apple] Auth Fail",
+                extra: { error },
+                level: Severity.Warning,
+            });
+            Alert.alert(
+                "오류 발생",
+                "로그인 중 오류가 발생했습니다. 다시 시도해주세요"
+            );
+        });
 }
 
 /**
@@ -40,6 +59,14 @@ async function appleSignIniOS() {
     if (!appleAuthRequestResponse.identityToken) {
         throw "Apple Sign-In failed - no identify token returned";
     }
+
+    console.log("appleAuthRequestResponse", appleAuthRequestResponse);
+
+    captureEvent({
+        message: "appleAuthRequestResponse",
+        extra: { appleAuthRequestResponse },
+        level: Severity.Info,
+    });
 
     return {
         idToken: appleAuthRequestResponse.identityToken,
