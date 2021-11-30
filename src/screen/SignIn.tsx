@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Text } from "native-base";
+import { useNavigation } from "@react-navigation/core";
 import {
     Dimensions,
     SafeAreaView,
@@ -16,6 +17,8 @@ import GoogleSignIn from "../asset/signin/GoogleSignIn.svg";
 import AppleSignIn from "../asset/signin/AppleSignIn.svg";
 
 export default function SignIn() {
+    const navigation = useNavigation();
+
     const style = StyleSheet.create({
         buttonStyle: {
             opacity: 0.89,
@@ -40,10 +43,18 @@ export default function SignIn() {
                         마음흐름을 다음의 계정으로{"\n"}시작해보세요
                     </Text>
                     <Box marginTop="10" alignItems="center">
-                        <TouchableOpacity onPress={signInWithGoogle}>
+                        <TouchableOpacity
+                            onPress={async () =>
+                                await signInWithGoogle(navigation)
+                            }
+                        >
                             <GoogleSignIn style={style.buttonStyle} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={signInWithApple}>
+                        <TouchableOpacity
+                            onPress={async () =>
+                                await signInWithApple(navigation)
+                            }
+                        >
                             <AppleSignIn style={style.buttonStyle} />
                         </TouchableOpacity>
                     </Box>

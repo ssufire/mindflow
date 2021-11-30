@@ -7,8 +7,9 @@ import {
     appleAuthAndroid,
 } from "@invertase/react-native-apple-authentication";
 import auth from "@react-native-firebase/auth";
+import onAuthStateChanged from "./onAuthStateChanged";
 
-export default async function signInWithApple() {
+export default async function signInWithApple(navigation) {
     // * Get idToken, nonce using AppleSignIn function
     const { idToken, nonce } =
         Platform.OS === "ios"
@@ -19,7 +20,9 @@ export default async function signInWithApple() {
     const appleCredential = auth.AppleAuthProvider.credential(idToken, nonce);
 
     // * Sign the user in with the credential
-    return auth().signInWithCredential(appleCredential);
+    auth()
+        .signInWithCredential(appleCredential)
+        .then((res) => onAuthStateChanged(res.user, navigation));
 }
 
 /**

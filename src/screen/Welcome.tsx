@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import auth from "@react-native-firebase/auth";
 import { SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Box, Button, Text, Input } from "native-base";
@@ -8,7 +7,7 @@ import setMyProfile from "../lib/profile/setMyProfile";
 
 export default function Welcome() {
     const navigation = useNavigation();
-    const [nickname, setNickname] = useState(auth().currentUser.displayName);
+    const [nickname, setNickname] = useState("");
 
     const onPressConfirm = async () => {
         await setMyProfile(nickname).then((res) => {

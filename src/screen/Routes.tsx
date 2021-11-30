@@ -5,6 +5,7 @@ import {
     StackNavigationOptions,
     TransitionPresets,
 } from "@react-navigation/stack";
+import auth from "@react-native-firebase/auth";
 import Statistics from "./Statistics";
 import Timeline from "./Timeline";
 import Welcome from "./Welcome";
@@ -14,17 +15,17 @@ import onAuthStateChanged from "../lib/auth/onAuthStateChanged";
 import configAuthProvider from "../lib/auth/configAuthProvider";
 
 export default function Routes() {
-    const subscribe = useRef(null);
     const navigation = useNavigation();
 
     useEffect(() => {
         configAuthProvider();
-        if (!subscribe.current)
-            subscribe.current = onAuthStateChanged(navigation);
 
-        return () => {
-            if (subscribe.current) subscribe.current();
-        };
+        const currentUser = auth().currentUser;
+        console.log("currentUser", currentUser);
+
+        if (currentUser !== null) {
+            onAuthStateChanged(currentUser, navigation);
+        }
     }, []);
 
     // * Create Stack Navigator and related options
